@@ -1,9 +1,11 @@
 import express, {Express, Request, Response} from "express";
 import {RequestHandler} from "express-serve-static-core";
-import {getWordFromDictionary} from './services/rae/rae.service';
 import cors from 'cors';
+import {wordsRouter} from './routes/words.route';
+import connectToDB from './db';
 
 const app: Express = express();
+connectToDB();
 
 app.use(express.urlencoded({ extended: true }) as RequestHandler);
 
@@ -21,15 +23,7 @@ app.get("/", (req: Request, res: Response) => {
   res.sendFile("/dist/index.html");
 });
 
-app.post("/api/search", async (req, res) => {
-  const {search} = req.body;
-  console.log(req.body)
-  if (search) {
-    const words = await getWordFromDictionary(search);
-    return res.send(words);
-  }
-  res.status(400).send('body parameter search can not be empty');
-});
+app.use('/api', wordsRouter);
 
 // START THE SERVER
 // =============================================================================

@@ -3,7 +3,7 @@ import {IWord} from '../../../common/interfaces/word.interface';
 export class WordService {
   private static instance: WordService;
 
-  private api = 'http://localhost:8050/api/'
+  private api = 'http://localhost:8050/api/words/'
   static getInstance(): WordService {
     if (!this.instance) {
       this.instance = new WordService();

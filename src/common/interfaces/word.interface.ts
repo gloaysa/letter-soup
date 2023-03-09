@@ -1,6 +1,10 @@
 
 export interface IWord {
-    value: string,
-    id: string,
-    definition: string[],
+    value: string;
+    spellings: {
+        _id: string;
+        value: string;
+    }[];
+    _id: string;
+    definitions: string[];
 }
