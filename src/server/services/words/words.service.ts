@@ -11,7 +11,7 @@ export class WordsService {
     return WordDocument.findOne({ _id: id });
   }
 
-  getWordByValue(word: string): Promise<Document<IWord>> | undefined {
+  async getWordByValue(word: string): Promise<Document<IWord> | undefined> {
     try {
       return WordDocument.findOne({
         $text: {
@@ -19,11 +19,21 @@ export class WordsService {
           $caseSensitive: false,
           $diacriticSensitive: false,
         },
-      });
+      }).exec();
     } catch (e) {
       console.error(
-        `There was an error when looking for the word ${word}: ${e}`
+          `There was an error when looking for the word ${word}: ${e}`
       );
+      return undefined;
+    }
+  }
+
+  async getAllWords(): Promise<IWord[] | undefined> {
+    try {
+      return WordDocument.find({});
+    } catch (e) {
+      console.error(`It was not possible to get all words: ${e}`);
+      return undefined;
     }
   }
 
@@ -42,21 +52,23 @@ export class WordsService {
     word: string
   ): Promise<Document<IWord> | undefined> {
     let wordFound = await this.getWordByValue(word);
-
-    if (!wordFound) {
-      try {
-        const wordFromRAE = await getWordFromDictionary(word);
-        if (!wordFromRAE) {
-          console.info(`Word ${word} does not exist in the dictionary`);
-          return undefined;
-        }
-        wordFound = WordModel(wordFromRAE);
-        await wordFound.save();
-        console.info(`Created new word ${word}`);
-      } catch (e) {
-        console.error(`it was not possible to create new word ${word}: ${e}`);
-      }
+    if (wordFound) {
+      return wordFound;
     }
-    return wordFound;
+
+    try {
+      const wordFromRAE = await getWordFromDictionary(word);
+      if (!wordFromRAE) {
+        console.info(`Word ${word} does not exist in the dictionary`);
+        return undefined;
+      }
+      wordFound = WordModel(wordFromRAE);
+      await wordFound.save();
+      console.info(`Created new word ${word}`);
+      return wordFound;
+    } catch (e) {
+      console.error(`it was not possible to create new word ${word}: ${e}`);
+      return undefined;
+    }
   }
 }

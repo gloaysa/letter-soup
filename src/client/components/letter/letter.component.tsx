@@ -4,7 +4,7 @@ import "./letter.component.scss";
 import {useDispatch, useSelector} from "react-redux";
 import {selectLetterState, setLetter} from "../../store/letter.reducer";
 import {cellCanBeSelected, directionFromOneCellToAnother,} from "../../utils/adjacent-cells.util";
-import {setCurrentWord} from '../../store/words.reducer';
+import {selectWordState, setCurrentWord} from '../../store/words.reducer';
 
 interface ILetterComponent {
   letter: ILetter;
@@ -14,6 +14,7 @@ const LetterComponent: FunctionComponent<ILetterComponent> = ({ letter }) => {
   const currentAdjacentCells = useSelector(selectLetterState).currentAdjacentCells;
   const selectedLetters = useSelector(selectLetterState).selectedLetters;
   const lastSelected = useSelector(selectLetterState).lastSelected;
+  const currentWordExist = useSelector(selectWordState).currentWordExist;
   const dispatch = useDispatch();
   const isSelected = selectedLetters.some(({ id }) => id === letter.id);
   const isLastSelected = lastSelected?.id === letter.id;
@@ -36,7 +37,8 @@ const LetterComponent: FunctionComponent<ILetterComponent> = ({ letter }) => {
       className={
         "letter " +
         (isSelected ? "letter--selected " : "") +
-        (isAdjacent ? "letter--adjacent" : "")
+        (isAdjacent ? "letter--adjacent" : "") +
+        (isSelected && currentWordExist ? "letter--green" : "")
       }
       onClick={() => selectLetter()}
     >

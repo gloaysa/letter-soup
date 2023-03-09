@@ -7,4 +7,5 @@ export interface IWord {
     }[];
     _id: string;
     definitions: string[];
+    language: string;
 }

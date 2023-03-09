@@ -18,14 +18,16 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-}
 
-.letter--selected {
-    background-color: #c2bfbf;
-}
-
-.letter--adjacent:hover {
-    background-color: grey;
+    &--selected {
+        background-color: #c2bfbf;
+    }
+    &--green {
+        background-color: #94F69D33;
+    }
+    &--adjacent:hover {
+        background-color: grey;
+    }
 }
 
 .line {
