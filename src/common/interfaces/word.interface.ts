@@ -8,5 +8,7 @@ export interface IWord {
     _id: string;
     definitions: string[];
     genres: string[];
+    plural: string[];
+    allForms: string[];
     language: string;
 }

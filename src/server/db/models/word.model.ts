@@ -31,6 +31,14 @@ const wordSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  plural: {
+    type: [String],
+    required: true,
+  },
+  allForms: {
+    type: [String],
+    required: true,
+  },
   language: {
     type: String,
     required: true,
