@@ -65,7 +65,7 @@ export class WordsService {
         console.info(`Created new word ${word}`);
         return wordFound;
       } catch (e) {
-        console.error(`Word ${word} could not be created`);
+        console.error(`Word ${word} could not be created: ${e}`);
       }
     }
   }

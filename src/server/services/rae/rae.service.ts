@@ -28,9 +28,13 @@ export async function getWordFromDictionary(
     }
 
     const words = await transformFromRAEtoIWord(results);
+    const filteredWords = words.filter(({ value }) => search === value || searchIsPlural(search, value));
 
-    return words
-      .filter(({ value }) => search === value || searchIsPlural(search, value))
+    if (!filteredWords.length) {
+      return undefined;
+    }
+
+    return filteredWords
       .reduce((previousValue, currentValue, currentIndex): IWord => {
         const currentId = currentValue?._id;
         const previousSpellings = previousValue.spellings;
@@ -83,7 +87,7 @@ export async function getWordFromDictionary(
           _id: word.getId(),
           genres,
           plural,
-          allForms: [...genres, ...plural],
+          allForms: removeDuplicates([value, ...genres, ...plural]),
           spellings: [],
           definitions: await getDefinitionsFromDictionary(word.getId()),
         };
@@ -160,5 +164,9 @@ export async function getWordFromDictionary(
       return true;
     }
     return false;
+  }
+
+  function removeDuplicates(wordList: string[]): string[] {
+    return wordList.filter((elem, index) => wordList.indexOf(elem) === index);
   }
 }
