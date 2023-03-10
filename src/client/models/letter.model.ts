@@ -1,16 +1,13 @@
-import {Char, CharModel, IChar} from './char.model';
-import {v4 as uuid} from 'uuid';
-import {ICell} from '../services/letter/table.interface';
+import { Char, CharModel, IChar } from "./char.model";
+import { v4 as uuid } from "uuid";
 
 export interface ILetter {
-    id: string;
-    char: IChar;
-    points: {
-        pointsValue: number;
-        pointsMultiplier: number;
-    }
-    cell: ICell;
-    orderOfSelection: number;
+  id: string;
+  char: IChar;
+  points: {
+    pointsValue: number;
+    pointsMultiplier: number;
+  };
 }
 
 export class LetterModel implements ILetter {
@@ -21,16 +18,9 @@ export class LetterModel implements ILetter {
         pointsValue: 1,
         pointsMultiplier: 1,
     }
-    cell: ICell;
 
-    orderOfSelection = 0;
-
-    constructor(char: Char, column: number, row: number) {
+    constructor(char: Char) {
         this.id = uuid();
         this.char = new CharModel(char);
-        this.cell = {
-            column,
-            row
-        };
     }
 }

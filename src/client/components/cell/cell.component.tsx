@@ -1,35 +1,51 @@
-import React, {FunctionComponent} from "react";
-import {ILetter} from "../../models/letter.model";
-import "./letter.component.scss";
-import {useDispatch, useSelector} from "react-redux";
-import {selectLetterState, setLetter} from "../../store/letter.reducer";
-import {cellCanBeSelected, directionFromOneCellToAnother,} from "../../utils/adjacent-cells.util";
-import {selectWordState, setCurrentWord} from '../../store/words.reducer';
+import React, { FunctionComponent } from "react";
+import "./cell.component.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  currentlySelectedCells,
+  lastSelectedLetter,
+  selectCellState,
+  setLetter,
+} from "../../store/table.reducer";
+import {
+  cellCanBeSelected,
+  directionFromOneCellToAnother,
+} from "../../utils/adjacent-cells.util";
+import { selectWordState, setCurrentWord } from "../../store/words.reducer";
+import { ICell } from "../../services/letter/table.interface";
 
-interface ILetterComponent {
-  letter: ILetter;
+interface ICellComponent {
+  cell: ICell;
 }
 
-const LetterComponent: FunctionComponent<ILetterComponent> = ({ letter }) => {
-  const currentAdjacentCells = useSelector(selectLetterState).currentAdjacentCells;
-  const selectedLetters = useSelector(selectLetterState).selectedLetters;
-  const lastSelected = useSelector(selectLetterState).lastSelected;
+const CellComponent: FunctionComponent<ICellComponent> = ({ cell }) => {
+  const currentAdjacentCells = useSelector(selectCellState).currentAdjacentCells;
+  const selectedCells = useSelector(currentlySelectedCells);
+  const lastSelected = useSelector(lastSelectedLetter);
   const currentWordExist = useSelector(selectWordState).currentWordExist;
   const dispatch = useDispatch();
-  const isSelected = selectedLetters.some(({ id }) => id === letter.id);
-  const isLastSelected = lastSelected?.id === letter.id;
-  const isAdjacent = cellCanBeSelected(currentAdjacentCells, selectedLetters.map(({ cell }) => cell), letter.cell);
-  const orderOfSelection = selectedLetters.find(({ id }) => letter.id === id)?.orderOfSelection;
-  const nextSelectedLetter = orderOfSelection ? selectedLetters.find((letter) => letter.orderOfSelection === orderOfSelection + 1) : undefined;
-  const previousSelectedLetter = orderOfSelection ? selectedLetters.find((letter) => letter.orderOfSelection === orderOfSelection - 1) : undefined;
-  const nextCellArrowPosition = directionFromOneCellToAnother(letter.cell, nextSelectedLetter?.cell);
-  const previousCellArrowPosition = directionFromOneCellToAnother(letter.cell, previousSelectedLetter?.cell);
+
+  const isSelected = selectedCells.some(({ id }) => id === cell.id);
+  const isLastSelected = lastSelected?.id === cell.id;
+  const isAdjacent = cellCanBeSelected(currentAdjacentCells, selectedCells, cell);
+  const orderOfSelection = selectedCells.find(({ id }) => cell.id === id)?.orderOfSelection;
+  const nextSelectedCell = orderOfSelection ? selectedCells.find((letter) => letter.orderOfSelection === orderOfSelection + 1) : undefined;
+  const previousSelectedLetter = orderOfSelection ? selectedCells.find((letter) => letter.orderOfSelection === orderOfSelection - 1) : undefined;
+  const nextCellArrowPosition = directionFromOneCellToAnother(cell, nextSelectedCell);
+  const previousCellArrowPosition = directionFromOneCellToAnother(cell, previousSelectedLetter);
 
   const selectLetter = () => {
-    dispatch(setLetter(letter));
-    const letters = [...selectedLetters, letter];
-    const currentWord = letters.map(({char}) => char.value).join('');
-    dispatch(setCurrentWord(currentWord));
+    dispatch(setLetter(cell));
+    const cells = [...selectedCells, cell];
+    const currentWord = cells.map(({letter}) => letter.char.value).join('');
+    if (isSelected) {
+      const goBack = selectedCells.filter(({ orderOfSelection }) => orderOfSelection <= cell.orderOfSelection
+      ).map(({letter}) => letter.char.value).join('');
+      dispatch(setCurrentWord(goBack));
+    } else {
+      dispatch(setCurrentWord(currentWord));
+    }
+
   };
 
   return (
@@ -76,9 +92,9 @@ const LetterComponent: FunctionComponent<ILetterComponent> = ({ letter }) => {
               (isLastSelected && previousCellArrowPosition === "v-bottom" ? "line line--v line-last-selected--bottom " : "")
           }
       ></div>
-      <span>{letter.char.value}</span>
+      <span>{cell.letter.char.value}</span>
     </div>
   );
 };
 
-export default LetterComponent;
+export default CellComponent;

@@ -1,13 +1,13 @@
-import {configureStore} from '@reduxjs/toolkit';
-import letterReducer from './letter.reducer';
-import wordsReducer from './words.reducer';
+import { configureStore } from "@reduxjs/toolkit";
+import tableReducer from "./table.reducer";
+import wordsReducer from "./words.reducer";
 
 const store = configureStore({
-    reducer: {
-        letter: letterReducer,
-        words: wordsReducer
-    },
-})
+  reducer: {
+    table: tableReducer,
+    words: wordsReducer,
+  },
+});
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
