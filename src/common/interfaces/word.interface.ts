@@ -7,5 +7,6 @@ export interface IWord {
     }[];
     _id: string;
     definitions: string[];
+    genres: string[];
     language: string;
 }

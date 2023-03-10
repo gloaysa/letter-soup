@@ -1,34 +1,40 @@
-import mongoose, {Document} from 'mongoose';
-import {IWord} from '../../../common/interfaces/word.interface';
+import mongoose, { Document } from "mongoose";
+import { IWord } from "../../../common/interfaces/word.interface";
 
 const wordSchema = new mongoose.Schema({
-    value: {
-        type: String,
-        required: true,
-        lowercase: true,
-        index: {
-            unique: true,
-        }
+  value: {
+    type: String,
+    required: true,
+    lowercase: true,
+    index: {
+      unique: true,
     },
-    _id: {
-        type: String,
-        required: true,
-    },
-    spellings: {
-        type: [{
-            _id: String,
-            value: String,
-        }],
-        required: true,
-    },
-    definitions: {
-        type: [String],
-        required: true,
-    },
-    language: {
-        type: String,
-        required: true,
-    }
+  },
+  _id: {
+    type: String,
+    required: true,
+  },
+  spellings: {
+    type: [
+      {
+        _id: String,
+        value: String,
+      },
+    ],
+    required: true,
+  },
+  definitions: {
+    type: [String],
+    required: true,
+  },
+  genres: {
+    type: [String],
+    required: true,
+  },
+  language: {
+    type: String,
+    required: true,
+  },
 });
 
 wordSchema.index({value: 'text'})
