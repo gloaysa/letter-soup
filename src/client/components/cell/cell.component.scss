@@ -1,102 +1,101 @@
 :root {
-    --letter-width: 25px;
-    --letter-height: 25px;
-    --line-width: calc(var(--letter-width) * 2.5);
-    --line-height: calc(var(--letter-height) * 2);
+	--letter-width: 25px;
+	--letter-height: 25px;
+	--line-width: calc(var(--letter-width) * 2.5);
+	--line-height: calc(var(--letter-height) * 2);
 }
 
-
 .letter {
-    display: flex;
-    position: relative;
-    text-transform: uppercase;
-    font-size: 32px;
-    width: var(--letter-width);
-    height: var(--letter-height);
-    padding: 15px;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	position: relative;
+	text-transform: uppercase;
+	font-size: 32px;
+	width: var(--letter-width);
+	height: var(--letter-height);
+	padding: 15px;
+	justify-content: center;
+	align-items: center;
 }
 
 .line {
-    position: absolute;
-    background-color: rgba(255, 219, 164, 0.5);
+	position: absolute;
+	background-color: rgba(255, 219, 164, 0.5);
 }
 
 .line--h {
-    width: var(--line-width);
-    height: var(--letter-height);
+	width: var(--line-width);
+	height: var(--letter-height);
 }
 
 .line--v {
-    width: var(--letter-width);
-    height: var(--line-height);
+	width: var(--letter-width);
+	height: var(--line-height);
 }
 
 .line--top {
-    top: calc(var(--letter-width) * -1);
-    border-radius: 0 10% 0 0;
+	top: calc(var(--letter-width) * -1);
+	border-radius: 0 10% 0 0;
 }
 
 .line--right {
-    right: calc(var(--letter-width) * -1);
-    border-radius: 0 0 0 10%;
+	right: calc(var(--letter-width) * -1);
+	border-radius: 0 0 0 10%;
 }
 
 .line--bottom {
-    bottom: calc(var(--letter-width) * -1);
-    border-radius: 10% 10% 0 0;
+	bottom: calc(var(--letter-width) * -1);
+	border-radius: 10% 10% 0 0;
 }
 
 .line--left {
-    left: calc(var(--letter-width) * -1);
-    border-radius: 0 10% 10% 0;
+	left: calc(var(--letter-width) * -1);
+	border-radius: 0 10% 10% 0;
 }
 
 .line--d-up-left {
-    width: calc(var(--letter-width) * 2);
-    height: var(--letter-height);
-    transform: rotate(45deg);
-    top: 0;
-    left: calc((var(--letter-width) / 2) * -1);
+	width: calc(var(--letter-width) * 2);
+	height: var(--letter-height);
+	transform: rotate(45deg);
+	top: 0;
+	left: calc((var(--letter-width) / 2) * -1);
 }
 
 .line--d-up-right {
-    width: var(--line-width);
-    height: var(--letter-height);
-    transform: rotate(-45deg);
-    top: 0;
-    right: calc((var(--letter-width) / 2) * -1);;
+	width: var(--line-width);
+	height: var(--letter-height);
+	transform: rotate(-45deg);
+	top: 0;
+	right: calc((var(--letter-width) / 2) * -1);
 }
 
 .line--d-down-left {
-    width: var(--letter-width);
-    height: var(--letter-height);
-    transform: rotate(-45deg);
-    bottom: 0;
-    left: 0;
+	width: var(--letter-width);
+	height: var(--letter-height);
+	transform: rotate(-45deg);
+	bottom: 0;
+	left: 0;
 }
 
 .line--d-down-right {
-    width: var(--letter-width);
-    height: var(--letter-height);
-    transform: rotate(45deg);
-    bottom: 0;
-    right: 0;
+	width: var(--letter-width);
+	height: var(--letter-height);
+	transform: rotate(45deg);
+	bottom: 0;
+	right: 0;
 }
 
 .line-last-selected--top {
-    border-radius: 0 0 80% 80%;
+	border-radius: 0 0 80% 80%;
 }
 
 .line-last-selected--left {
-    border-radius: 0 80% 80% 0;
+	border-radius: 0 80% 80% 0;
 }
 
 .line-last-selected--bottom {
-    border-radius: 80% 80% 0 0;
+	border-radius: 80% 80% 0 0;
 }
 
 .line-last-selected--right {
-    border-radius: 80% 0 0 80%;
+	border-radius: 80% 0 0 80%;
 }

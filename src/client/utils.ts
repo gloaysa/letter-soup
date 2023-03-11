@@ -1,22 +1,19 @@
 interface IApi {
-    host: string;
-    getRoute: (routeName: string) => string;
+	host: string;
+	getRoute: (routeName: string) => string;
 }
 
 class Api implements IApi {
-    host: string;
-    constructor(host: string) {
-        this.host = host;
-    }
+	host: string;
+	constructor(host: string) {
+		this.host = host;
+	}
 
-    getRoute(routeName: string) {
-        return `${this.host}/api/${routeName}`
-    }
-
+	getRoute(routeName: string) {
+		return `${this.host}/api/${routeName}`;
+	}
 }
 
-const apiRoute: Api = Object.freeze(new Api("http://localhost:3000"));
+const apiRoute: Api = Object.freeze(new Api('http://localhost:3000'));
 
-export {
-    apiRoute,
-}
+export { apiRoute };

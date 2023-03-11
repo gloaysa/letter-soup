@@ -1,47 +1,47 @@
-import {IWord} from '../../../common/interfaces/word.interface';
+import { IWord } from '../../../common/interfaces/word.interface';
 
 export class WordService {
-  private static instance: WordService;
+	private static instance: WordService;
 
-  private api = 'http://localhost:5050/api/words/'
-  static getInstance(): WordService {
-    if (!this.instance) {
-      this.instance = new WordService();
-      return this.instance;
-    }
-    return this.instance;
-  }
+	private api = 'http://localhost:5050/api/words/';
+	static getInstance(): WordService {
+		if (!this.instance) {
+			this.instance = new WordService();
+			return this.instance;
+		}
+		return this.instance;
+	}
 
-  public getAllWords(): Promise<IWord[]> {
-    const url = `${this.api}all/`;
-    return fetch(url, {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-    }).then((res) => res.json());
-  }
-  public search(word: string): Promise<IWord | undefined> {
-    const url = `${this.api}search/`;
-    return fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({search: word})
-    }).then((res) => res.json());
-  }
+	public getAllWords(): Promise<IWord[]> {
+		const url = `${this.api}all/`;
+		return fetch(url, {
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		}).then((res) => res.json());
+	}
+	public search(word: string): Promise<IWord | undefined> {
+		const url = `${this.api}search/`;
+		return fetch(url, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ search: word }),
+		}).then((res) => res.json());
+	}
 
-  createNewWord(word: string): Promise<IWord | undefined> {
-    const url = `${this.api}search/`;
-    return fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({search: word, create: true})
-    }).then((res) => res.json());
-  }
+	createNewWord(word: string): Promise<IWord | undefined> {
+		const url = `${this.api}search/`;
+		return fetch(url, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ search: word, create: true }),
+		}).then((res) => res.json());
+	}
 }

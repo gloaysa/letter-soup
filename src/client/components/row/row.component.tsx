@@ -31,8 +31,7 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 
 	const cellIsLastSelected = (cell: ICell) => lastSelected?.id === cell.id;
 	const cellIsSelected = (cell: ICell) => selectedCells.some(({ id }) => id === cell.id);
-	const cellIsAdjacent = (cell: ICell) =>
-		cellIsNotSelectedAndCanBeSelected(currentAdjacentCells, selectedCells, cell);
+	const cellIsAdjacent = (cell: ICell) => cellIsNotSelectedAndCanBeSelected(currentAdjacentCells, selectedCells, cell);
 
 	const selectLetter = (event: React.MouseEvent, cell: ICell) => {
 		dispatch(setCell(cell));
@@ -40,7 +39,7 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 
 	const playWord = () => {
 		usePlayCurrentWordHook();
-	}
+	};
 
 	return (
 		<div className="row">

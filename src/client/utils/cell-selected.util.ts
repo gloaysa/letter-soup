@@ -1,21 +1,19 @@
-import { ICell } from "../services/letter/table.interface";
-import { cellIsAdjacent } from "./adjacent-cells.util";
+import { ICell } from '../services/letter/table.interface';
+import { cellIsAdjacent } from './adjacent-cells.util';
 
-export const lastSelectedCell = (
-  selectedCells: ICell[] | undefined
-): ICell | undefined => {
-  if (!selectedCells?.length) {
-    return undefined;
-  }
+export const lastSelectedCell = (selectedCells: ICell[] | undefined): ICell | undefined => {
+	if (!selectedCells?.length) {
+		return undefined;
+	}
 
-  let lastSelected = selectedCells[0];
+	let lastSelected = selectedCells[0];
 
-  for (let i = 1; i < selectedCells.length; i++) {
-    if (selectedCells[i].orderOfSelection > lastSelected.orderOfSelection) {
-      lastSelected = selectedCells[i];
-    }
-  }
-  return lastSelected;
+	for (let i = 1; i < selectedCells.length; i++) {
+		if (selectedCells[i].orderOfSelection > lastSelected.orderOfSelection) {
+			lastSelected = selectedCells[i];
+		}
+	}
+	return lastSelected;
 };
 
 /**
@@ -23,11 +21,8 @@ export const lastSelectedCell = (
  * @param selectedCells
  * @param cell
  */
-export function cellIsSelected(
-    selectedCells: ICell[],
-    cell: ICell
-): boolean {
-    return selectedCells.some(({ id }) => id === cell.id);
+export function cellIsSelected(selectedCells: ICell[], cell: ICell): boolean {
+	return selectedCells.some(({ id }) => id === cell.id);
 }
 
 /**
@@ -35,11 +30,8 @@ export function cellIsSelected(
  * @param selectedCells
  * @param cell
  */
-export function cellIsTheOnlyOneSelected(
-    selectedCells: ICell[],
-    cell: ICell
-): boolean {
-    return cellIsSelected(selectedCells, cell) && selectedCells.length === 1
+export function cellIsTheOnlyOneSelected(selectedCells: ICell[], cell: ICell): boolean {
+	return cellIsSelected(selectedCells, cell) && selectedCells.length === 1;
 }
 
 /**
@@ -49,13 +41,9 @@ export function cellIsTheOnlyOneSelected(
  * @param currentlySelectedCells
  * @param currentCell
  */
-export function cellIsNotSelectedAndCanBeSelected(
-    currentAdjacentCells: ICell[],
-    currentlySelectedCells: ICell[],
-    currentCell: ICell
-): boolean {
-    const isAdjacent = cellIsAdjacent(currentAdjacentCells, currentCell);
-    const selected = cellIsSelected(currentlySelectedCells, currentCell);
+export function cellIsNotSelectedAndCanBeSelected(currentAdjacentCells: ICell[], currentlySelectedCells: ICell[], currentCell: ICell): boolean {
+	const isAdjacent = cellIsAdjacent(currentAdjacentCells, currentCell);
+	const selected = cellIsSelected(currentlySelectedCells, currentCell);
 
-    return isAdjacent && !selected;
+	return isAdjacent && !selected;
 }

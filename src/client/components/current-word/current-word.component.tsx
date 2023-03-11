@@ -8,24 +8,22 @@ interface ICurrentWordComponent {
 	addNewWord: (word: string) => void;
 }
 
-const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({
-  addNewWord,
-}) => {
-  const currentWord = useSelector(selectWordState).currentWord;
-  const selectedCells = useSelector(currentlySelectedCells);
-  const dispatch = useDispatch();
+const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({ addNewWord }) => {
+	const currentWord = useSelector(selectWordState).currentWord;
+	const selectedCells = useSelector(currentlySelectedCells);
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    const currentWord = selectedCells.map(({letter}) => letter.char.value).join('');
-    dispatch(setCurrentWord(currentWord));
-  }, [selectedCells])
+	useEffect(() => {
+		const currentWord = selectedCells.map(({ letter }) => letter.char.value).join('');
+		dispatch(setCurrentWord(currentWord));
+	}, [selectedCells]);
 
-  return (
-    <section className="current-word">
-      <h1>{currentWord?.toUpperCase()}</h1>
-      <button onClick={() => addNewWord(currentWord)}>Añadir palabra al diccionario</button>
-    </section>
-  );
+	return (
+		<section className="current-word">
+			<h1>{currentWord?.toUpperCase()}</h1>
+			<button onClick={() => addNewWord(currentWord)}>Añadir palabra al diccionario</button>
+		</section>
+	);
 };
 
 export default CurrentWordComponent;

@@ -35,7 +35,7 @@ const CellComponent: FunctionComponent<ICellComponent> = ({ cell, onSecondClick 
 			onSecondClick();
 			setSelected(false);
 		}
-	}
+	};
 
 	return (
 		<div className={'letter '} onClick={handleClick} ref={wrapperRef}>
