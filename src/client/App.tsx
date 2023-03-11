@@ -8,6 +8,7 @@ import { WordService } from "./services/word/word.service";
 import { setNewWord, setWordList } from "./store/words.reducer";
 import { setTable } from "./store/table.reducer";
 import { selectTableConfig } from "./store/config.reducer";
+import PointsComponent from "./components/points/points.component";
 
 const letterService = LetterService.getInstance();
 const wordService = WordService.getInstance();
@@ -33,6 +34,7 @@ function App(): JSX.Element {
 
   return (
     <div className="App">
+      <PointsComponent />
       <CurrentWordComponent addNewWord={handleAddNewWord} />
       <TableComponent />
     </div>

@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "./store";
 import {IWord} from "../../common/interfaces/word.interface";
 import {ICell} from '../services/letter/table.interface';
+import {sumPointsFromCells} from '../utils/sum-points.util';
 
 // Define a type for the slice state
 interface WordsState {
@@ -36,7 +37,7 @@ export const wordsSlice = createSlice({
       state.currentWordExist = wordExist(state.wordList, action.payload);
     },
     setTotalPoints: (state, action: PayloadAction<ICell[]>) => {
-      const pointsFromCurrentWord = action.payload.reduce((acc, curr) => acc + curr.letter.points.pointValue, 0);
+      const pointsFromCurrentWord = sumPointsFromCells(action.payload);
       state.totalPoints = state.totalPoints + pointsFromCurrentWord;
     }
   },

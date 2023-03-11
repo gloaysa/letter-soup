@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect } from "react";
 import "./current-word.component.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  selectTotalPoints,
   selectWordState,
   setCurrentWord,
   setTotalPoints,
@@ -17,8 +16,8 @@ const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({
   addNewWord,
 }) => {
   const currentWord = useSelector(selectWordState).currentWord;
+  const currentWordExists = useSelector(selectWordState).currentWordExist;
   const selectedCells = useSelector(currentlySelectedCells);
-  const totalPoints = useSelector(selectTotalPoints);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,17 +26,18 @@ const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({
   }, [selectedCells])
 
   const handleRemoveWord = () => {
-    dispatch(removeCells());
-    dispatch(setCurrentWord(""));
-    dispatch(setTotalPoints(selectedCells));
+    if (currentWordExists) {
+      dispatch(removeCells());
+      dispatch(setCurrentWord(""));
+      dispatch(setTotalPoints(selectedCells));
+    }
   };
 
   return (
     <section className="current-word">
       <h1>{currentWord?.toUpperCase()}</h1>
       <button onClick={() => addNewWord(currentWord)}>Añadir palabra al diccionario</button>
-      <button onClick={() => handleRemoveWord()}>Confirmar</button>
-      {totalPoints ? <p>{totalPoints}</p> : null}
+      <button disabled={!currentWordExists} onClick={() => handleRemoveWord()}>Confirmar</button>
     </section>
   );
 };

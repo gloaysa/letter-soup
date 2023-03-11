@@ -1,0 +1,16 @@
+.points {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .points__total {}
+
+  .points__plus {
+    font-size: 26px;
+  }
+
+  .points__current {
+    display: flex;
+    align-items: center;
+  }
+}
