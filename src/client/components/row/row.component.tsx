@@ -2,13 +2,14 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import "./row.component.scss";
 import CellComponent from "../cell/cell.component";
 import { ICell } from "../../services/letter/table.interface";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectTableConfig } from "../../store/config.reducer";
 import { useMakeCellsFallDownHook } from "../../hooks/use-make-cells-fall-down.hook";
 import {
   currentlySelectedCells,
   lastSelectedLetter,
   selectCellState,
+  setLetter,
 } from "../../store/table.reducer";
 import { selectWordState } from "../../store/words.reducer";
 import { cellCanBeSelected } from "../../utils/adjacent-cells.util";
@@ -26,6 +27,7 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
   const selectedCells = useSelector(currentlySelectedCells);
   const lastSelected = useSelector(lastSelectedLetter);
   const currentAdjacentCells = useSelector(selectCellState).currentAdjacentCells;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const rowWithPossibleMissingCells = useMakeCellsFallDownHook(
@@ -37,29 +39,33 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
   }, [tableConfig.rows, row]);
 
   const cellIsLastSelected = (cell: ICell) => lastSelected?.id === cell.id;
-  const cellIsSelected = (cell: ICell) => selectedCells.some(({ id }) => id === cell.id);
+  const cellIsSelected = (cell: ICell) =>
+    selectedCells.some(({ id }) => id === cell.id);
   const cellIsAdjacent = (cell: ICell) => cellCanBeSelected(currentAdjacentCells, selectedCells, cell);
+
+  const selectLetter = (cell: ICell) => {
+    dispatch(setLetter(cell));
+  };
 
   return (
     <div className="row">
       {numberOfColumns.map((cell, index) => {
-        const currentCell = cell;
-
-        if (!currentCell) {
+        if (!cell) {
           return <div className={`row__cell ${index}`} key={index}></div>;
         }
         return (
           <div
+            onClick={() => selectLetter(cell)}
             className={
-              `row__cell ${currentCell.column} ${index} ` +
+              `row__cell ${cell.column} ${index} ` +
                 (cellIsLastSelected(cell) && currentWordExist ? "row__cell--lastSelected " : "") +
                 (cellIsSelected(cell) ? "row__cell--selected " : "") +
                 (cellIsSelected(cell) && currentWordExist ? "row__cell--valid-word" : "") +
                 (cellIsAdjacent(cell) ? "row__cell--adjacent" : "")
             }
-            key={currentCell.id}
+            key={cell.id}
           >
-            <CellComponent cell={currentCell} />
+            <CellComponent cell={cell} />
           </div>
         );
       })}

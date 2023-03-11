@@ -1,10 +1,9 @@
 import React, { FunctionComponent } from "react";
 import "./cell.component.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   currentlySelectedCells,
   lastSelectedLetter,
-  setLetter,
 } from "../../store/table.reducer";
 import { directionFromOneCellToAnother } from "../../utils/adjacent-cells.util";
 import { ICell } from "../../services/letter/table.interface";
@@ -16,7 +15,6 @@ interface ICellComponent {
 const CellComponent: FunctionComponent<ICellComponent> = ({ cell }) => {
   const selectedCells = useSelector(currentlySelectedCells);
   const lastSelected = useSelector(lastSelectedLetter);
-  const dispatch = useDispatch();
 
   const isLastSelected = lastSelected?.id === cell.id;
   const orderOfSelection = selectedCells.find(({ id }) => cell.id === id)?.orderOfSelection;
@@ -25,15 +23,10 @@ const CellComponent: FunctionComponent<ICellComponent> = ({ cell }) => {
   const nextCellArrowPosition = directionFromOneCellToAnother(cell, nextSelectedCell);
   const previousCellArrowPosition = directionFromOneCellToAnother(cell, previousSelectedLetter);
 
-  const selectLetter = () => {
-    dispatch(setLetter(cell));
-  };
+
 
   return (
-    <div
-      className={"letter "}
-      onClick={() => selectLetter()}
-    >
+    <div className={"letter "}>
       <div
           className={
               (previousCellArrowPosition ? "line pre " : "") +
