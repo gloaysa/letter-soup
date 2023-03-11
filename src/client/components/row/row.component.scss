@@ -1,6 +1,11 @@
 $cell-width: 50px;
 $cell-height: 50px;
 
+$color-cell-adjacent: #FFDBA4;
+$color-cell-selected: #FFE9AE;
+$color-cell-last-selected: #FFB3B3;
+$color-cell-word-is-valid: #C1EFFF;
+
 .row {
     display: flex;
 
@@ -9,10 +14,29 @@ $cell-height: 50px;
         justify-content: center;
         align-items: center;
         flex: 1;
-        border: 1px solid black;
-        margin: 5px;
+        border: 5px solid transparent;
+
         width: $cell-width;
         height: $cell-height;
         cursor: pointer;
+    }
+
+    &__cell--selected {
+        background-color: $color-cell-selected;
+        border-color: $color-cell-selected;
+    }
+
+    &__cell--valid-word {
+        background-color: $color-cell-word-is-valid;
+        border-color: $color-cell-word-is-valid;
+    }
+
+    &__cell--lastSelected {
+        border-color: $color-cell-last-selected;
+    }
+
+    &__cell--adjacent:hover {
+        background-color: lighten($color-cell-adjacent, 15);
+        border-color: lighten($color-cell-adjacent, 15);
     }
 }

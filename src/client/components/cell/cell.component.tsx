@@ -4,14 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   currentlySelectedCells,
   lastSelectedLetter,
-  selectCellState,
   setLetter,
 } from "../../store/table.reducer";
-import {
-  cellCanBeSelected,
-  directionFromOneCellToAnother,
-} from "../../utils/adjacent-cells.util";
-import { selectWordState, setCurrentWord } from "../../store/words.reducer";
+import { directionFromOneCellToAnother } from "../../utils/adjacent-cells.util";
+import { setCurrentWord } from "../../store/words.reducer";
 import { ICell } from "../../services/letter/table.interface";
 
 interface ICellComponent {
@@ -19,15 +15,12 @@ interface ICellComponent {
 }
 
 const CellComponent: FunctionComponent<ICellComponent> = ({ cell }) => {
-  const currentAdjacentCells = useSelector(selectCellState).currentAdjacentCells;
   const selectedCells = useSelector(currentlySelectedCells);
   const lastSelected = useSelector(lastSelectedLetter);
-  const currentWordExist = useSelector(selectWordState).currentWordExist;
   const dispatch = useDispatch();
 
   const isSelected = selectedCells.some(({ id }) => id === cell.id);
   const isLastSelected = lastSelected?.id === cell.id;
-  const isAdjacent = cellCanBeSelected(currentAdjacentCells, selectedCells, cell);
   const orderOfSelection = selectedCells.find(({ id }) => cell.id === id)?.orderOfSelection;
   const nextSelectedCell = orderOfSelection ? selectedCells.find((letter) => letter.orderOfSelection === orderOfSelection + 1) : undefined;
   const previousSelectedLetter = orderOfSelection ? selectedCells.find((letter) => letter.orderOfSelection === orderOfSelection - 1) : undefined;
@@ -50,12 +43,7 @@ const CellComponent: FunctionComponent<ICellComponent> = ({ cell }) => {
 
   return (
     <div
-      className={
-        "letter " +
-        (isSelected ? "letter--selected " : "") +
-        (isAdjacent ? "letter--adjacent" : "") +
-        (isSelected && currentWordExist ? "letter--green" : "")
-      }
+      className={"letter "}
       onClick={() => selectLetter()}
     >
       <div

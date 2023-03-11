@@ -16,21 +16,11 @@
     padding: 15px;
     justify-content: center;
     align-items: center;
-
-    &--selected {
-        background-color: #c2bfbf;
-    }
-    &--green {
-        background-color: #94F69D33;
-    }
-    &--adjacent:hover {
-        background-color: grey;
-    }
 }
 
 .line {
     position: absolute;
-    background-color: rgba(107, 105, 105, 0.5)
+    background-color: rgba(255, 219, 164, 0.5);
 }
 
 .line--h {

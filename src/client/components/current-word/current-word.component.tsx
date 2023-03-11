@@ -30,8 +30,8 @@ const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({
   return (
     <section className="current-word">
       <h1>{currentWord?.toUpperCase()}</h1>
-      <button onClick={() => addNewWord(currentWord)}>Add word</button>
-      <button onClick={() => handleRemoveWord()}>Remove word</button>
+      <button onClick={() => addNewWord(currentWord)}>Añadir palabra al diccionario</button>
+      <button onClick={() => handleRemoveWord()}>Confirmar</button>
       {totalPoints ? <p>{totalPoints}</p> : null}
     </section>
   );
