@@ -63,9 +63,11 @@ export const tableSlice = createSlice({
 			state.currentAdjacentCells = adjacentCells(lastSelectedCell(state.table), state.table);
 			state.currentlySelectedCells = selectedCells(state.table);
 		},
-		removeCells: (state) => {
-			state.table = removeSelectedCells(state.table, selectedCells(state.table));
-			state.currentAdjacentCells = [];
+		removeCells: (state, action: PayloadAction<boolean>) => {
+			if (action.payload) {
+				state.table = removeSelectedCells(state.table, selectedCells(state.table));
+				state.currentAdjacentCells = [];
+			}
 		},
 	},
 });

@@ -5,10 +5,9 @@ import { ICell } from '../../services/letter/table.interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTableConfig } from '../../store/config.reducer';
 import { useMakeCellsFallDownHook } from '../../hooks/use-make-cells-fall-down.hook';
-import { currentlySelectedCells, lastSelectedLetter, selectCellState, setCell } from '../../store/table.reducer';
-import { selectWordState } from '../../store/words.reducer';
+import { currentlySelectedCells, lastSelectedLetter, removeCells, selectCellState, setCell } from '../../store/table.reducer';
+import { selectWordState, setTotalPoints } from '../../store/words.reducer';
 import { cellIsNotSelectedAndCanBeSelected } from '../../utils/cell-selected.util';
-import { usePlayCurrentWordHook } from '../../hooks/use-play-current-word.hook';
 
 interface RowComponent {
 	row: ICell[];
@@ -38,7 +37,10 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 	};
 
 	const playWord = () => {
-		usePlayCurrentWordHook();
+		if (currentWordExist) {
+			dispatch(removeCells(currentWordExist));
+			dispatch(setTotalPoints({ selectedCells, currentWordExist }));
+		}
 	};
 
 	return (

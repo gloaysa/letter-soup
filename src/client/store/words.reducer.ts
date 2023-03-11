@@ -36,9 +36,11 @@ export const wordsSlice = createSlice({
 			state.currentWord = action.payload;
 			state.currentWordExist = wordExist(state.wordList, action.payload);
 		},
-		setTotalPoints: (state, action: PayloadAction<ICell[]>) => {
-			const pointsFromCurrentWord = sumPointsFromCells(action.payload);
-			state.totalPoints = state.totalPoints + pointsFromCurrentWord;
+		setTotalPoints: (state, action: PayloadAction<{ selectedCells: ICell[]; currentWordExist: boolean }>) => {
+			if (action.payload.currentWordExist) {
+				const pointsFromCurrentWord = sumPointsFromCells(action.payload.selectedCells);
+				state.totalPoints = state.totalPoints + pointsFromCurrentWord;
+			}
 		},
 	},
 });
