@@ -7,7 +7,6 @@ import {
   setLetter,
 } from "../../store/table.reducer";
 import { directionFromOneCellToAnother } from "../../utils/adjacent-cells.util";
-import { setCurrentWord } from "../../store/words.reducer";
 import { ICell } from "../../services/letter/table.interface";
 
 interface ICellComponent {
@@ -19,7 +18,6 @@ const CellComponent: FunctionComponent<ICellComponent> = ({ cell }) => {
   const lastSelected = useSelector(lastSelectedLetter);
   const dispatch = useDispatch();
 
-  const isSelected = selectedCells.some(({ id }) => id === cell.id);
   const isLastSelected = lastSelected?.id === cell.id;
   const orderOfSelection = selectedCells.find(({ id }) => cell.id === id)?.orderOfSelection;
   const nextSelectedCell = orderOfSelection ? selectedCells.find((letter) => letter.orderOfSelection === orderOfSelection + 1) : undefined;
@@ -29,16 +27,6 @@ const CellComponent: FunctionComponent<ICellComponent> = ({ cell }) => {
 
   const selectLetter = () => {
     dispatch(setLetter(cell));
-    const cells = [...selectedCells, cell];
-    const currentWord = cells.map(({letter}) => letter.char.value).join('');
-    if (isSelected) {
-      const goBack = selectedCells.filter(({ orderOfSelection }) => orderOfSelection <= cell.orderOfSelection
-      ).map(({letter}) => letter.char.value).join('');
-      dispatch(setCurrentWord(goBack));
-    } else {
-      dispatch(setCurrentWord(currentWord));
-    }
-
   };
 
   return (

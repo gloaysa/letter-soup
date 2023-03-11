@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import "./current-word.component.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,6 +20,11 @@ const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({
   const selectedCells = useSelector(currentlySelectedCells);
   const totalPoints = useSelector(selectTotalPoints);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const currentWord = selectedCells.map(({letter}) => letter.char.value).join('');
+    dispatch(setCurrentWord(currentWord));
+  }, [selectedCells])
 
   const handleRemoveWord = () => {
     dispatch(removeCells());

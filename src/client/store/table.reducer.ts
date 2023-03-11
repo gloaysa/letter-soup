@@ -10,12 +10,14 @@ import {
 interface TableState {
   table: ICell[];
   currentAdjacentCells: ICell[];
+  currentlySelectedCells: ICell[];
 }
 
 // Define the initial state using that type
 const initialState: TableState = {
   table: [],
   currentAdjacentCells: [],
+  currentlySelectedCells: [],
 };
 
 const lastSelectedCell = (selectedCells: ICell[] | undefined): ICell | undefined => {
@@ -64,6 +66,89 @@ function removeSelectedCells(table: ICell[], cellsToRemove: ICell[]): ICell[] {
   return newTable;
 }
 
+const updateCellAndTable = (table: ICell[], cell: ICell): ICell[] => {
+  return table.map((currentCell) => {
+    if (cell.id !== currentCell.id) {
+      return currentCell;
+    }
+    return cell;
+  })
+}
+
+/**
+ * Removes orderOfSelection from the passed cell and returns the table updated
+ * @param table
+ * @param cell
+ */
+const removeOrderOfSelectionAndUpdateTable = (table: ICell[], cell: ICell): ICell[] => {
+  return table.map((currentCell) => {
+    if (currentCell.id === cell.id) {
+      return {...currentCell, orderOfSelection: 0};
+    }
+    return currentCell;
+  });
+}
+
+/**
+ * Removes orderOfSelection from the cells that were selected after the passed Cell and returns the table updated.
+ * @param table
+ * @param cell
+ */
+const removeOrderOfSelectionFromPreviouslySelectedCellsAndUpdateTable = (table: ICell[], cell: ICell): ICell[] => {
+  return table.map((currentCell) => {
+    if (currentCell.orderOfSelection > cell.orderOfSelection) {
+      return {...currentCell, orderOfSelection: 0};
+    }
+    return currentCell;
+  })
+}
+
+/**
+ * Removes orderOfSelection from all the passed Cells and updates the table
+ * @param table
+ * @param cells
+ */
+const removeOrderOfSelectionFromCellsAndUpdateTable = (table: ICell[], cells: ICell[]): ICell[] => {
+  return table.map((cellFromTable) => {
+    const currentCell = cells.find(({id}) => cellFromTable.id === id);
+    if (currentCell) {
+      return {...currentCell, orderOfSelection: 0};
+    }
+    return cellFromTable;
+  })
+}
+
+const updateTable = (table: ICell[], adjacentCells: ICell[], cell: ICell): ICell[] => {
+  const currentlySelectedCells = table.filter(({orderOfSelection}) => orderOfSelection > 0);
+  const lastSelected = lastSelectedCell(currentlySelectedCells);
+  if (!lastSelected) {
+    cell.orderOfSelection = 1;
+    console.log('guille !lastSelected')
+    return updateCellAndTable(table, cell);
+  } else {
+    console.log('guille currentlySelectedCells', currentlySelectedCells[0].letter.char.value)
+    if (cellCanBeSelected(adjacentCells, currentlySelectedCells, cell)) {
+      console.log('guille cellCanBeSelected')
+      cell.orderOfSelection = lastSelected.orderOfSelection + 1;
+      return updateCellAndTable(table, cell);
+    } else if (cellIsSelected(currentlySelectedCells, cell)) {
+      console.log('guille cellIsSelected')
+      if (cell.orderOfSelection === 1 && selectedCells(table).length === 1) {
+        console.log('guille orderOfSelection === 1')
+        return removeOrderOfSelectionAndUpdateTable(table, cell);
+      } else {
+        // If cell was already selected and the user select it again,
+        console.log('guille was already selected and user select it again')
+        return removeOrderOfSelectionFromPreviouslySelectedCellsAndUpdateTable(table, cell);
+      }
+    }
+    console.log('guille else')
+  }
+  const tableWithNoSelections = removeOrderOfSelectionFromCellsAndUpdateTable(table, currentlySelectedCells);
+  cell.orderOfSelection = 1;
+  return updateCellAndTable(tableWithNoSelections, cell);
+}
+
 
 
 export const tableSlice = createSlice({
@@ -75,34 +160,10 @@ export const tableSlice = createSlice({
     },
     setLetter: (state, action: PayloadAction<ICell>) => {
       const cell: ICell = { ...action.payload };
-      const adjacent = [...state.currentAdjacentCells];
-      const selectedCells = state.table.filter(({orderOfSelection}) => orderOfSelection > 0);
-      const lastSelected = lastSelectedCell(selectedCells);
-      if (!lastSelected) {
-        cell.orderOfSelection = 1;
-        state.currentAdjacentCells = adjacentCells(cell, state.table);
-      } else {
-        if (cellCanBeSelected(adjacent, selectedCells, cell)) {
-          cell.orderOfSelection = lastSelected.orderOfSelection + 1;
-        } else if (cellIsSelected(selectedCells, cell)) {
-          // If cell was already selected and the user select it again,
-          // we remove the ones that were selected after it (if any) and set their orderOfSelection back to 0.
-          state.table = state.table.map((currentCell) => {
-            if (currentCell.orderOfSelection > cell.orderOfSelection) {
-              return {...currentCell, orderOfSelection: 0};
-            }
-            return currentCell;
-          })
-        }
-      }
 
-      state.currentAdjacentCells = adjacentCells(cell, state.table);
-      state.table = state.table.map((currentCell) => {
-        if (cell.id !== currentCell.id) {
-          return currentCell;
-        }
-        return cell;
-      })
+      state.table = updateTable(state.table, state.currentAdjacentCells, cell);
+      state.currentAdjacentCells = adjacentCells(lastSelectedCell(state.table), state.table);
+      state.currentlySelectedCells = selectedCells(state.table);
     },
     removeCells: (state) => {
       state.table = removeSelectedCells(state.table, selectedCells(state.table));

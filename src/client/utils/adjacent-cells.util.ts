@@ -1,11 +1,14 @@
 import {ICell} from "../services/letter/table.interface";
 
 /**
- * It calculates all the adjacent cells to the one passed as parameter
+ * It calculates all the adjacent cells to the one passed as parameter, if currentCell is undefined it will return an empty array
  * @param currentCell
  * @param table
  */
-export function adjacentCells(currentCell: ICell, table: ICell[]): ICell[] {
+export function adjacentCells(currentCell: ICell | undefined, table: ICell[]): ICell[] {
+  if (!currentCell) {
+    return [];
+  }
   const adjacentCells: ICell[] = [];
   const rows = [currentCell.row - 1, currentCell.row, currentCell.row + 1];
   const columns = [
