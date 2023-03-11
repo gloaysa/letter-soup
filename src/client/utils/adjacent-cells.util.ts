@@ -53,24 +53,6 @@ export function cellIsAdjacent(
   return currentAdjacentCells.some(({ id }) => id === currentCell.id);
 }
 
-export function cellIsSelected(
-  currentlySelectedCells: ICell[],
-  currentCell: ICell
-): boolean {
-  return currentlySelectedCells.some(({ id }) => id === currentCell.id);
-}
-
-export function cellCanBeSelected(
-  currentAdjacentCells: ICell[],
-  currentlySelectedCells: ICell[],
-  currentCell: ICell
-): boolean {
-  const isAdjacent = cellIsAdjacent(currentAdjacentCells, currentCell);
-  const selected = cellIsSelected(currentlySelectedCells, currentCell);
-
-  return isAdjacent && !selected;
-}
-
 type ArrowDirection =
   | "h-right"
   | "h-left"

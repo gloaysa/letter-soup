@@ -9,10 +9,10 @@ import {
   currentlySelectedCells,
   lastSelectedLetter,
   selectCellState,
-  setLetter,
+  setCell,
 } from "../../store/table.reducer";
 import { selectWordState } from "../../store/words.reducer";
-import { cellCanBeSelected } from "../../utils/adjacent-cells.util";
+import { cellIsNotSelectedAndCanBeSelected } from "../../utils/cell-selected.util";
 
 interface RowComponent {
   row: ICell[];
@@ -41,10 +41,10 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
   const cellIsLastSelected = (cell: ICell) => lastSelected?.id === cell.id;
   const cellIsSelected = (cell: ICell) =>
     selectedCells.some(({ id }) => id === cell.id);
-  const cellIsAdjacent = (cell: ICell) => cellCanBeSelected(currentAdjacentCells, selectedCells, cell);
+  const cellIsAdjacent = (cell: ICell) => cellIsNotSelectedAndCanBeSelected(currentAdjacentCells, selectedCells, cell);
 
   const selectLetter = (cell: ICell) => {
-    dispatch(setLetter(cell));
+    dispatch(setCell(cell));
   };
 
   return (
