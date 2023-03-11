@@ -14,9 +14,9 @@ const PointsComponent: FunctionComponent = () => {
 
 	return (
 		<div className="points">
-			<div className="points__total">{totalPoints || currentWordExists ? <div>{totalPoints}</div> : null}</div>
-			<div className="points__plus">{currentWordPoints ? '+' : null}</div>
-			<div className="points__current">{currentWordPoints ? <div> {currentWordPoints}</div> : null}</div>
+			<div className="points__total">{totalPoints}</div>
+			<div className="points__plus">/</div>
+			<div className="points__current">{currentWordPoints}</div>
 		</div>
 	);
 };

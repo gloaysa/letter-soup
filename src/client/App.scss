@@ -1,7 +1,10 @@
 $color-cell-adjacent: #ffdba4;
+body {
+	background-color: $color-cell-adjacent;
+}
 .App {
 	display: flex;
 	flex-direction: column;
-	height: 100vh;
-	background-color: $color-cell-adjacent;
+	max-width: 1024px;
+	margin: 0 auto;
 }
