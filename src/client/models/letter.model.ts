@@ -5,7 +5,7 @@ export interface ILetter {
   id: string;
   char: IChar;
   points: {
-    pointsValue: number;
+    pointValue: number;
     pointsMultiplier: number;
   };
 }
@@ -15,12 +15,26 @@ export class LetterModel implements ILetter {
     char: IChar;
 
     points = {
-        pointsValue: 1,
+        pointValue: 1,
         pointsMultiplier: 1,
     }
 
     constructor(char: Char) {
         this.id = uuid();
         this.char = new CharModel(char);
+        this.assignPointValues();
+    }
+
+    private assignPointValues() {
+        if (this.char.value.match(/[wkxjyqvpz]/i)) {
+            this.points.pointValue = 10;
+        }
+        if (this.char.value.match(/[hñfgulrm]/i)) {
+            this.points.pointValue = 5;
+        }
+        if (this.char.value.match(/[cdtsnb]/i)) {
+            this.points.pointValue = 2;
+        }
+        this.points.pointValue = 1;
     }
 }

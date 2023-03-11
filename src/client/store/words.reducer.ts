@@ -1,12 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {RootState} from "./store";
 import {IWord} from "../../common/interfaces/word.interface";
+import {ICell} from '../services/letter/table.interface';
 
 // Define a type for the slice state
 interface WordsState {
   wordList: IWord[];
   currentWord: string;
   currentWordExist: boolean;
+  totalPoints: number;
 }
 
 // Define the initial state using that type
@@ -14,6 +16,7 @@ const initialState: WordsState = {
   wordList: [],
   currentWord: "",
   currentWordExist: false,
+  totalPoints: 0,
 };
 
 export const wordsSlice = createSlice({
@@ -32,6 +35,10 @@ export const wordsSlice = createSlice({
       state.currentWord = action.payload;
       state.currentWordExist = wordExist(state.wordList, action.payload);
     },
+    setTotalPoints: (state, action: PayloadAction<ICell[]>) => {
+      const pointsFromCurrentWord = action.payload.reduce((acc, curr) => acc + curr.letter.points.pointValue, 0);
+      state.totalPoints = state.totalPoints + pointsFromCurrentWord;
+    }
   },
 });
 
@@ -41,9 +48,10 @@ const wordExist = (wordList: IWord[], word: string): boolean => {
   );
 };
 
-export const { setWordList, setCurrentWord, setNewWord } = wordsSlice.actions;
+export const { setWordList, setCurrentWord, setNewWord, setTotalPoints } = wordsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectWordState = (state: RootState): WordsState => state.words;
+export const selectTotalPoints = (state: RootState): number => state.words.totalPoints;
 
 export default wordsSlice.reducer;
