@@ -21,6 +21,10 @@ $color-cell-word-is-valid: #C1EFFF;
         cursor: pointer;
     }
 
+    &__cell--empty {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
     &__cell--selected {
         background-color: $color-cell-selected;
         border-color: $color-cell-selected;

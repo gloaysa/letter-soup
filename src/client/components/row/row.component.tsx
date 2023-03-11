@@ -51,7 +51,7 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
     <div className="row">
       {numberOfColumns.map((cell, index) => {
         if (!cell) {
-          return <div className={`row__cell ${index}`} key={index}></div>;
+          return <div className={`row__cell row__cell--empty ${index}`} key={index}></div>;
         }
         return (
           <div
