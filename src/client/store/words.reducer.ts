@@ -17,7 +17,7 @@ const initialState: WordsState = {
 };
 
 export const wordsSlice = createSlice({
-  name: "letters",
+  name: "words",
   initialState,
   reducers: {
     setWordList: (state, action: PayloadAction<IWord[]>) => {

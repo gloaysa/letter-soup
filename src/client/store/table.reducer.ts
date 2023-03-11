@@ -38,7 +38,7 @@ const selectedCells = (table: ICell[]): ICell[] => table.filter(({orderOfSelecti
 function removeSelectedCells(table: ICell[], cellsToRemove: ICell[]): ICell[] {
   const newTable = [...table];
   for (const cell of cellsToRemove) {
-    // Buscamos la posición de la celda a eliminar
+    // Search the index in the table of the cell to remove
     let posicion;
     for (let i = 0; i < newTable.length; i++) {
       if (newTable[i].row === cell.row && newTable[i].column === cell.column) {
@@ -47,11 +47,12 @@ function removeSelectedCells(table: ICell[], cellsToRemove: ICell[]): ICell[] {
       }
     }
 
-    // Si se encontró la celda, se procede a eliminarla y reducir las filas superiores
+    // If a position was found, use .splice to remove the cell
+    // and reduce in one the upper rows positioned in the same column to "bring them down"
     if (posicion !== undefined) {
       newTable.splice(posicion, 1);
       for (let i = 0; i < newTable.length; i++) {
-        if (newTable[i].row > cell.row) {
+        if (newTable[i].row > cell.row && newTable[i].column === cell.column) {
           newTable[i] = {
             ...newTable[i],
             row: newTable[i].row - 1,
@@ -66,7 +67,7 @@ function removeSelectedCells(table: ICell[], cellsToRemove: ICell[]): ICell[] {
 
 
 export const tableSlice = createSlice({
-  name: "letters",
+  name: "table",
   initialState,
   reducers: {
     setTable: (state, action: PayloadAction<ICell[]>) => {

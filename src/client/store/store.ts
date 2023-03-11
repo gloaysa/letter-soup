@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import tableReducer from "./table.reducer";
 import wordsReducer from "./words.reducer";
+import configReducer from "./config.reducer";
 
 const store = configureStore({
   reducer: {
     table: tableReducer,
     words: wordsReducer,
+    config: configReducer,
   },
 });
 

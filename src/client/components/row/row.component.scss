@@ -1,3 +1,18 @@
-.letter-row {
+$cell-width: 50px;
+$cell-height: 50px;
+
+.row {
     display: flex;
+
+    &__cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        border: 1px solid black;
+        margin: 5px;
+        width: $cell-width;
+        height: $cell-height;
+        cursor: pointer;
+    }
 }
