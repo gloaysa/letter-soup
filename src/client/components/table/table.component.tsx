@@ -4,6 +4,8 @@ import RowComponent from "../row/row.component";
 import { selectCellState } from "../../store/table.reducer";
 import { useSelector } from "react-redux";
 import { ICell, ITable } from "../../services/letter/table.interface";
+import { selectTableConfig } from "../../store/config.reducer";
+import { useOrderTableRowsAndColumns } from "../../hooks/use-order-table-rows-and-columns";
 
 interface ITableComponent {
   handleWordFound: (cell: ICell) => void;
@@ -12,19 +14,11 @@ interface ITableComponent {
 const TableComponent: FunctionComponent = () => {
     const [rows, setRows] = useState<ITable>([]);
     const table = useSelector(selectCellState).table;
+    const tableConfig = useSelector(selectTableConfig);
 
     useEffect(() => {
-        const tableOrderedByRow: { [key: number]: ICell[] } = table.reduce((result, current) => {
-            const valor = current.row;
-            if (!result[valor]) {
-                result[valor] = [];
-            }
-            result[valor].push(current);
-            return result;
-        }, {} as { [key: number]: ICell[] });
-
-        const newRows: ITable = Object.values(tableOrderedByRow).reverse();
-        setRows(newRows)
+        const orderedTable = useOrderTableRowsAndColumns(table, tableConfig.rows);
+        setRows(orderedTable)
     }, [table])
 
 
