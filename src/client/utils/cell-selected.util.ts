@@ -1,6 +1,31 @@
 import { ICell } from '../services/letter/table.interface';
 import { cellIsAdjacent } from './adjacent-cells.util';
 
+function orderCellsByOrderOfSelection(a: ICell, b: ICell): number {
+	if (a.orderOfSelection < b.orderOfSelection) {
+		return -1;
+	} else if (a.orderOfSelection > b.orderOfSelection) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+/**
+ * Returns an array ordered by orderOfSelection containing only the Cells that has orderOfSelection > 0
+ * (meaning they are currently selected)
+ * @param table
+ */
+export function selectedCells(table: ICell[]): ICell[] {
+	return table.filter(({ orderOfSelection }) => orderOfSelection > 0).sort(orderCellsByOrderOfSelection);
+}
+
+/**
+ * It returns the last Cell that was selected on the passed array of Cells.
+ * If the passed array does not contain Cells, returns undefined.
+ * If no Cell is selected inside the passed array, will return undefined.
+ * @param selectedCells
+ */
 export const lastSelectedCell = (selectedCells: ICell[] | undefined): ICell | undefined => {
 	if (!selectedCells?.length) {
 		return undefined;
@@ -12,6 +37,9 @@ export const lastSelectedCell = (selectedCells: ICell[] | undefined): ICell | un
 		if (selectedCells[i].orderOfSelection > lastSelected.orderOfSelection) {
 			lastSelected = selectedCells[i];
 		}
+	}
+	if (lastSelected.orderOfSelection === 0) {
+		return undefined;
 	}
 	return lastSelected;
 };

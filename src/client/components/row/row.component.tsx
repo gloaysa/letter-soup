@@ -5,7 +5,7 @@ import { ICell } from '../../services/letter/table.interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTableConfig } from '../../store/config.reducer';
 import { useMakeCellsFallDownHook } from '../../hooks/use-make-cells-fall-down.hook';
-import { currentlySelectedCells, lastSelectedLetter, removeCells, selectCellState, setCell } from '../../store/table.reducer';
+import { currentlyAdjacentCells, currentlySelectedCells, lastSelectedLetter, removeCells, setCell } from '../../store/table.reducer';
 import { selectWordState, setTotalPoints } from '../../store/words.reducer';
 import { cellIsNotSelectedAndCanBeSelected } from '../../utils/cell-selected.util';
 
@@ -20,7 +20,7 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 	const currentWordExist = useSelector(selectWordState).currentWordExist;
 	const selectedCells = useSelector(currentlySelectedCells);
 	const lastSelected = useSelector(lastSelectedLetter);
-	const currentAdjacentCells = useSelector(selectCellState).currentAdjacentCells;
+	const currentAdjacentCells = useSelector(currentlyAdjacentCells);
 	const dispatch = useDispatch();
 
 	useEffect(() => {

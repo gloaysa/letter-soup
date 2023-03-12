@@ -1,7 +1,7 @@
 import './table.component.scss';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import RowComponent from '../row/row.component';
-import { selectCellState } from '../../store/table.reducer';
+import { mainTable } from '../../store/table.reducer';
 import { useSelector } from 'react-redux';
 import { ICell, ITable } from '../../services/letter/table.interface';
 import { selectTableConfig } from '../../store/config.reducer';
@@ -13,7 +13,7 @@ interface ITableComponent {
 
 const TableComponent: FunctionComponent = () => {
 	const [rows, setRows] = useState<ITable>([]);
-	const table = useSelector(selectCellState).table;
+	const table = useSelector(mainTable);
 	const tableConfig = useSelector(selectTableConfig);
 
 	useEffect(() => {

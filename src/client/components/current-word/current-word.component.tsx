@@ -25,7 +25,9 @@ const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({ addNew
 	return (
 		<section className="current-word">
 			<div className="current-word__word">{currentWord?.toUpperCase()}</div>
-			<div className="current-word__search">{wordWrittenButNotExists ? <GrSearchAdvanced /> : null}</div>
+			<div onClick={() => addNewWord(currentWord)} className="current-word__search">
+				{wordWrittenButNotExists ? <GrSearchAdvanced /> : null}
+			</div>
 		</section>
 	);
 };

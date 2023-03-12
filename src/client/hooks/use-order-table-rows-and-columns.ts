@@ -1,6 +1,6 @@
 import { ICell, ITable } from '../services/letter/table.interface';
 
-function compareCellsByColumn(a: ICell, b: ICell): number {
+function orderCellsByColumn(a: ICell, b: ICell): number {
 	if (a.column < b.column) {
 		return -1;
 	} else if (a.column > b.column) {
@@ -28,6 +28,6 @@ export const useOrderTableRowsAndColumns = (table: ICell[], numberOfRows: number
 		const missingRows = numberOfRows - newRows.length;
 		Array.from(Array(missingRows).keys()).forEach(() => newRows.unshift([]));
 	}
-	newRows.map((cell) => cell.sort(compareCellsByColumn));
+	newRows.map((cell) => cell.sort(orderCellsByColumn));
 	return newRows;
 };
