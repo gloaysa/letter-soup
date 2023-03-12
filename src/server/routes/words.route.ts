@@ -15,11 +15,11 @@ router.get('/words/all', async (req, res) => {
 router.post('/words/search', async (req, res) => {
 	const { search, create } = req.body;
 	if (!search) {
-		return res.status(400).send('body parameter search can not be empty');
+		return res.status(400).send({ error: 'body parameter search can not be empty' });
 	}
 	const word = create ? await wordService.getWordByValueOrCreate(search) : await wordService.getWordByValue(search);
 	if (!word) {
-		return res.status(200).send(`Word ${search} not found!`);
+		return res.status(404).send({ error: `Word ${search} not found!` });
 	}
 
 	return res.send(word);

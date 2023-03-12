@@ -4,7 +4,7 @@ import { LetterService } from './services/letter/letter.service';
 import { useDispatch, useSelector } from 'react-redux';
 import TableComponent from './components/table/table.component';
 import { WordService } from './services/word/word.service';
-import { setNewWord, setWordList } from './store/words.reducer';
+import { setWordList } from './store/words.reducer';
 import { setTable } from './store/table.reducer';
 import { selectTableConfig } from './store/config.reducer';
 import HeaderComponent from './components/header/header.component';
@@ -24,18 +24,10 @@ function App(): JSX.Element {
 		});
 	}, [dispatch]);
 
-	const handleAddNewWord = (word: string) => {
-		wordService.createNewWord(word).then((newWord) => {
-			if (newWord) {
-				dispatch(setNewWord(newWord));
-			}
-		});
-	};
-
 	return (
 		<div className="App">
 			<div ref={headerRef}>
-				<HeaderComponent onAddNewWord={handleAddNewWord} />
+				<HeaderComponent wordService={wordService} />
 			</div>
 			<TableComponent headerRef={headerRef} />
 		</div>

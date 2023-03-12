@@ -42,6 +42,12 @@ export class WordService {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({ search: word, create: true }),
-		}).then((res) => res.json());
+		}).then((res) => {
+			if (res.status === 404) {
+				console.error('Word not found');
+				return undefined;
+			}
+			return res.json();
+		});
 	}
 }

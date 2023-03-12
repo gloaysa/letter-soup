@@ -3,11 +3,12 @@ import React, { FunctionComponent } from 'react';
 import PointsComponent from '../points/points.component';
 import HamburgerMenuComponent from '../hambuger-menu/hamburger-menu.component';
 import CurrentWordComponent from '../current-word/current-word.component';
+import { WordService } from '../../services/word/word.service';
 
 interface IHeaderComponent {
-	onAddNewWord: (word: string) => void;
+	wordService: WordService;
 }
-const HeaderComponent: FunctionComponent<IHeaderComponent> = ({ onAddNewWord }) => {
+const HeaderComponent: FunctionComponent<IHeaderComponent> = ({ wordService }) => {
 	return (
 		<header className="header">
 			<menu className="header__top-menu">
@@ -20,7 +21,7 @@ const HeaderComponent: FunctionComponent<IHeaderComponent> = ({ onAddNewWord }) 
 			</menu>
 
 			<div className="header__word">
-				<CurrentWordComponent addNewWord={onAddNewWord} />
+				<CurrentWordComponent wordService={wordService} />
 			</div>
 		</header>
 	);
