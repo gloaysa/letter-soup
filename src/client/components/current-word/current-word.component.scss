@@ -5,7 +5,14 @@
 	align-items: center;
 	font-size: 36px;
 
-	&__search {
+	&__icon {
 		margin-left: 15px;
+
+		&--search {
+			color: yellow;
+		}
+		&--exists {
+			color: green;
+		}
 	}
 }

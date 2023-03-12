@@ -3,7 +3,7 @@ import './current-word.component.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectWordState, setCurrentWord } from '../../store/words.reducer';
 import { currentlySelectedCells } from '../../store/table.reducer';
-import { GrSearchAdvanced } from 'react-icons/gr';
+import { BsFillCheckCircleFill, BsSearch } from 'react-icons/bs';
 
 interface ICurrentWordComponent {
 	addNewWord: (word: string) => void;
@@ -25,8 +25,11 @@ const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({ addNew
 	return (
 		<section className="current-word">
 			<div className="current-word__word">{currentWord?.toUpperCase()}</div>
-			<div onClick={() => addNewWord(currentWord)} className="current-word__search">
-				{wordWrittenButNotExists ? <GrSearchAdvanced /> : null}
+			<div onClick={() => addNewWord(currentWord)} className="current-word__icon current-word__icon--search">
+				{wordWrittenButNotExists ? <BsSearch /> : null}
+			</div>
+			<div onClick={() => addNewWord(currentWord)} className="current-word__icon current-word__icon--exists">
+				{currentWordExists ? <BsFillCheckCircleFill /> : null}
 			</div>
 		</section>
 	);
