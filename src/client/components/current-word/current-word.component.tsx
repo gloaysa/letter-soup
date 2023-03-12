@@ -28,9 +28,7 @@ const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({ addNew
 			<div onClick={() => addNewWord(currentWord)} className="current-word__icon current-word__icon--search">
 				{wordWrittenButNotExists ? <BsSearch /> : null}
 			</div>
-			<div onClick={() => addNewWord(currentWord)} className="current-word__icon current-word__icon--exists">
-				{currentWordExists ? <BsFillCheckCircleFill /> : null}
-			</div>
+			<div className="current-word__icon current-word__icon--exists">{currentWordExists ? <BsFillCheckCircleFill /> : null}</div>
 		</section>
 	);
 };

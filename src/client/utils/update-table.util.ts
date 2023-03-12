@@ -6,11 +6,15 @@ import { cellIsNotSelectedAndCanBeSelected, cellIsSelected, cellIsTheOnlyOneSele
  * Most probably only to be used in table.reducer.ts setCell action.
  * @param table main table
  * @param adjacentCells a list of the Cells that are adjacent to the last selected one before updating the currently selected Cell
- * @param cell the currently selected Cell
+ * @param cell the currently selected Cell. If undefined, will return the table with no Cell selected.
  */
-export const updateTable = (table: ICell[], adjacentCells: ICell[], cell: ICell): ICell[] => {
+export const updateTable = (table: ICell[], adjacentCells: ICell[], cell: ICell | undefined): ICell[] => {
 	const currentlySelectedCells = table.filter(({ orderOfSelection }) => orderOfSelection > 0);
 	const currentOrderOfSelection = lastSelectedCell(currentlySelectedCells)?.orderOfSelection ?? 0;
+
+	if (!cell) {
+		return removeOrderOfSelectionFromCellsAndUpdateTable(table, currentlySelectedCells);
+	}
 
 	if (cellIsNotSelectedAndCanBeSelected(adjacentCells, currentlySelectedCells, cell)) {
 		cell.orderOfSelection = currentOrderOfSelection + 1;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './App.scss';
 import { LetterService } from './services/letter/letter.service';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ const letterService = LetterService.getInstance();
 const wordService = WordService.getInstance();
 
 function App(): JSX.Element {
+	const headerRef = useRef(null);
 	const tableConfig = useSelector(selectTableConfig);
 	const dispatch = useDispatch();
 
@@ -33,8 +34,10 @@ function App(): JSX.Element {
 
 	return (
 		<div className="App">
-			<HeaderComponent onAddNewWord={handleAddNewWord} />
-			<TableComponent />
+			<div ref={headerRef}>
+				<HeaderComponent onAddNewWord={handleAddNewWord} />
+			</div>
+			<TableComponent headerRef={headerRef} />
 		</div>
 	);
 }

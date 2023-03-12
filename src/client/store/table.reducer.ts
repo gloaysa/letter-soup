@@ -26,8 +26,8 @@ export const tableSlice = createSlice({
 		setTable: (state, action: PayloadAction<ICell[]>) => {
 			state.table = action.payload;
 		},
-		setCell: (state, action: PayloadAction<ICell>) => {
-			const cell: ICell = { ...action.payload };
+		setCell: (state, action: PayloadAction<ICell | undefined>) => {
+			const cell: ICell | undefined = action.payload ? { ...action.payload } : undefined;
 
 			state.table = updateTable(state.table, state.currentAdjacentCells, cell);
 			state.currentAdjacentCells = adjacentCells(lastSelectedCell(state.table), state.table);
