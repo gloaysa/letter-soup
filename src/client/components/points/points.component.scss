@@ -1,7 +1,9 @@
 .points {
+	$points-size: 26px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-size: $points-size;
 
 	.points__total {
 	}
@@ -13,5 +15,13 @@
 	.points__current {
 		display: flex;
 		align-items: center;
+
+		.current__base-points {
+		}
+		.current__multiplier {
+			margin-left: 2px;
+			color: #598144;
+			font-size: calc($points-size - 10px);
+		}
 	}
 }

@@ -15,8 +15,8 @@ export class LetterModel implements ILetter {
 	char: IChar;
 
 	points = {
-		pointValue: 1,
-		pointsMultiplier: 1,
+		pointValue: 5,
+		pointsMultiplier: 0,
 	};
 
 	constructor(char: Char) {
@@ -27,14 +27,13 @@ export class LetterModel implements ILetter {
 
 	private assignPointValues() {
 		if (this.char.value.match(/[wkxjyqvpz]/i)) {
-			this.points.pointValue = 10;
+			this.points.pointsMultiplier = 3;
 		}
 		if (this.char.value.match(/[hñfgulrm]/i)) {
-			this.points.pointValue = 5;
+			this.points.pointsMultiplier = 2;
 		}
 		if (this.char.value.match(/[cdtsnb]/i)) {
-			this.points.pointValue = 2;
+			this.points.pointValue = 7;
 		}
-		this.points.pointValue = 1;
 	}
 }

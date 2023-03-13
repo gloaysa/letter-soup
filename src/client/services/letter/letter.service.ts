@@ -22,11 +22,11 @@ export class LetterService {
 		rows.forEach((row, index) => {
 			if (index === 0) {
 				const firstRow = [
-					new CellModel(12, 1, new LetterModel('f')),
-					new CellModel(12, 2, new LetterModel('e')),
-					new CellModel(12, 3, new LetterModel('a')),
-					new CellModel(12, 4, new LetterModel('f')),
-					new CellModel(12, 5, new LetterModel('e')),
+					new CellModel(12, 1, new LetterModel('p')),
+					new CellModel(12, 2, new LetterModel('o')),
+					new CellModel(12, 3, new LetterModel('z')),
+					new CellModel(12, 4, new LetterModel('o')),
+					new CellModel(12, 5, new LetterModel('s')),
 					new CellModel(12, 6, new LetterModel('o')),
 				];
 				return table.push(...firstRow);
