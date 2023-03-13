@@ -1,7 +1,7 @@
 import './table.component.scss';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import RowComponent from '../row/row.component';
-import { mainTable, setCell } from '../../store/table.reducer';
+import { selectMainTable, setCell } from '../../store/table.reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { ITable } from '../../services/letter/table.interface';
 import { selectTableConfig } from '../../store/config.reducer';
@@ -16,7 +16,7 @@ const TableComponent: FunctionComponent<ITableComponent> = ({ headerRef }) => {
 	const [rows, setRows] = useState<ITable>([]);
 
 	const wrapperRef = useRef(null);
-	const table = useSelector(mainTable);
+	const table = useSelector(selectMainTable);
 	const tableConfig = useSelector(selectTableConfig);
 	const dispatch = useDispatch();
 

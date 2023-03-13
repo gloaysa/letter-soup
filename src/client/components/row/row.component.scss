@@ -43,4 +43,17 @@ $color-cell-word-is-valid: #c1efff;
 		background-color: lighten($color-cell-adjacent, 15);
 		border-color: lighten($color-cell-adjacent, 15);
 	}
+	&__cell--bonus {
+		background-color: transparent;
+		transform: scale(1);
+		animation: pulse 1s infinite;
+		animation-direction: alternate-reverse;
+		animation-timing-function: cubic-bezier(0.1, -0.6, 0.2, 0);
+
+		@keyframes pulse {
+			to {
+				background-color: darken($color-cell-last-selected, 10);
+			}
+		}
+	}
 }

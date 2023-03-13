@@ -1,11 +1,61 @@
 import { ICell } from '../services/letter/table.interface';
+import { flatArrayAndRemoveDuplicatesById, removeCellsContainedInBoth } from './array-manipulation.util';
+
+export const TOTAL_ROWS = 12;
+export const TOTAL_COLUMNS = 9;
 
 /**
- * It calculates all the adjacent cells to the one passed as parameter, if currentCell is undefined it will return an empty array
+ * Returns an array containing all the adjacent cells to the one passed as parameter.
+ * If currentCell is undefined it will return an empty array
  * @param currentCell
  * @param table
  */
-export function adjacentCells(currentCell: ICell | undefined, table: ICell[]): ICell[] {
+export function adjacentCells(table: ICell[], currentCell: ICell | undefined): ICell[] {
+	return perpendicularAdjacentCells(table, currentCell).concat(sideAdjacentCell(table, currentCell));
+}
+
+/**
+ * Returns an array containing the top/bottom - left/right adjacent cells to all the ones inside currentSelectedCells.
+ * @param table
+ * @param currentSelectedCells
+ */
+export function cellsSideAdjacentToSelectedCells(table: ICell[], currentSelectedCells: ICell[]): ICell[] {
+	const adjacentCellsList = currentSelectedCells.map((cell) => sideAdjacentCell(table, cell));
+	const allAdjacentCells = flatArrayAndRemoveDuplicatesById(adjacentCellsList);
+	return removeCellsContainedInBoth(allAdjacentCells, currentSelectedCells);
+}
+
+/**
+ * Returns an array containing perpendicular adjacent cells to the one passed as parameter
+ * If currentCell is undefined it will return an empty array
+ * @param currentCell
+ * @param table
+ */
+export function perpendicularAdjacentCells(table: ICell[], currentCell: ICell | undefined): ICell[] {
+	return filterAdjacentCells(table, currentCell, (row, column, currentCell) => {
+		return (
+			(row === currentCell.row - 1 && column === currentCell.column + 1) ||
+			(row === currentCell.row - 1 && column === currentCell.column - 1) ||
+			(row === currentCell.row + 1 && column === currentCell.column - 1) ||
+			(row === currentCell.row + 1 && column === currentCell.column + 1)
+		);
+	});
+}
+
+/**
+ * It returns a new array containing the Cells adjacent to the passed Cell and that pass the filter in the callback.
+ * It will always filter Cells outside the table scope.
+ * It will always filter Cells that are the same as the passed 'currentCell'.
+ * If currentCell is undefined, will return an empty array.
+ * @param table
+ * @param currentCell
+ * @param callback
+ */
+function filterAdjacentCells(
+	table: ICell[],
+	currentCell: ICell | undefined,
+	callback: (row: number, column: number, currentCell: ICell) => boolean
+): ICell[] {
 	if (!currentCell) {
 		return [];
 	}
@@ -15,11 +65,15 @@ export function adjacentCells(currentCell: ICell | undefined, table: ICell[]): I
 
 	rows.forEach((row) => {
 		columns.forEach((column) => {
-			// Ignorar la celda actual y las celdas fuera de la tabla
+			// Ignore currentCell and Cells outside the table
 			if (row === currentCell.row && column === currentCell.column) {
 				return;
 			}
-			if (row < 0 || row >= 13 || column < 0 || column >= 7) {
+			if (row < 0 || row > TOTAL_ROWS || column < 0 || column > TOTAL_COLUMNS) {
+				return;
+			}
+			// Ignore the cells that meet the callback
+			if (!callback(row, column, currentCell)) {
 				return;
 			}
 
@@ -40,6 +94,23 @@ export function adjacentCells(currentCell: ICell | undefined, table: ICell[]): I
 	return adjacentCells;
 }
 
+/**
+ * Returns an array containing cells on top/bottom - left/right adjacent cells to the one passed as parameter
+ * If currentCell is undefined it will return an empty array
+ * @param currentCell
+ * @param table
+ */
+function sideAdjacentCell(table: ICell[], currentCell: ICell | undefined): ICell[] {
+	return filterAdjacentCells(table, currentCell, (row, column, currentCell) => {
+		return row === currentCell.row || column === currentCell.column;
+	});
+}
+
+/**
+ * Returns true if 'currentCell' is inside 'currentAdjacentCells'
+ * @param currentAdjacentCells
+ * @param currentCell
+ */
 export function cellIsAdjacent(currentAdjacentCells: ICell[], currentCell: ICell): boolean {
 	return currentAdjacentCells.some(({ id }) => id === currentCell.id);
 }

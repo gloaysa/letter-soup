@@ -20,40 +20,21 @@ export class LetterService {
 		const table: ICell[] = [];
 
 		rows.forEach((row, index) => {
-			if (index === 0) {
+			if (index === 11) {
 				const firstRow = [
-					new CellModel(12, 1, new LetterModel('p')),
-					new CellModel(12, 2, new LetterModel('o')),
-					new CellModel(12, 3, new LetterModel('z')),
-					new CellModel(12, 4, new LetterModel('o')),
-					new CellModel(12, 5, new LetterModel('s')),
-					new CellModel(12, 6, new LetterModel('o')),
-				];
-				return table.push(...firstRow);
-			}
-			if (index === 6) {
-				const firstRow = [
-					new CellModel(6, 1, new LetterModel('f')),
-					new CellModel(6, 2, new LetterModel('e')),
-					new CellModel(6, 3, new LetterModel('a')),
-					new CellModel(6, 4, new LetterModel('f')),
-					new CellModel(6, 5, new LetterModel('e')),
-					new CellModel(6, 6, new LetterModel('o')),
+					new CellModel(1, 1, new LetterModel('p')),
+					new CellModel(1, 2, new LetterModel('o')),
+					new CellModel(1, 3, new LetterModel('z')),
+					new CellModel(1, 4, new LetterModel('o')),
+					new CellModel(1, 5, new LetterModel('s')),
+					new CellModel(1, 6, new LetterModel(this.getRandomChar())),
+					new CellModel(1, 7, new LetterModel(this.getRandomChar())),
+					new CellModel(1, 8, new LetterModel(this.getRandomChar())),
+					new CellModel(1, 9, new LetterModel(this.getRandomChar())),
 				];
 				return table.push(...firstRow);
 			}
 
-			if (index === 11) {
-				const firstRow = [
-					new CellModel(1, 1, new LetterModel('f')),
-					new CellModel(1, 2, new LetterModel('e')),
-					new CellModel(1, 3, new LetterModel('a')),
-					new CellModel(1, 4, new LetterModel('f')),
-					new CellModel(1, 5, new LetterModel('e')),
-					new CellModel(1, 6, new LetterModel('o')),
-				];
-				return table.push(...firstRow);
-			}
 			const cellsInRow = columns.map((column) => new CellModel(rows.length - index, column + 1, new LetterModel(this.getRandomChar())));
 			table.push(...cellsInRow);
 		});

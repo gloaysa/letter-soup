@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
 import './cell.component.scss';
 import { useSelector } from 'react-redux';
-import { currentlySelectedCells, lastSelectedLetter } from '../../store/table.reducer';
+import { selectedLastSelectedCell, selectSelectedCells } from '../../store/table.reducer';
 import { directionFromOneCellToAnother } from '../../utils/adjacent-cells.util';
 import { ICell } from '../../services/letter/table.interface';
 import { useOnClickOutside } from 'usehooks-ts';
@@ -15,8 +15,8 @@ const CellComponent: FunctionComponent<ICellComponent> = ({ cell, onSecondClick 
 	const [selected, setSelected] = useState<boolean>(false);
 
 	const wrapperRef = useRef(null);
-	const selectedCells = useSelector(currentlySelectedCells);
-	const lastSelected = useSelector(lastSelectedLetter);
+	const selectedCells = useSelector(selectSelectedCells);
+	const lastSelected = useSelector(selectedLastSelectedCell);
 
 	const isLastSelected = lastSelected?.id === cell.id;
 	const orderOfSelection = selectedCells.find(({ id }) => cell.id === id)?.orderOfSelection;

@@ -3,20 +3,24 @@ import { RootState } from './store';
 import { ICell } from '../services/letter/table.interface';
 import { adjacentCells } from '../utils/adjacent-cells.util';
 import { updateTable } from '../utils/update-table.util';
-import { lastSelectedCell, selectedCells } from '../utils/cell-selected.util';
+import { calculateBonusCells, lastSelectedCell, selectedCells } from '../utils/cell-selected.util';
 import { removeSelectedCells } from '../utils/remove-cells.util';
 
 interface TableState {
 	table: ICell[];
 	currentAdjacentCells: ICell[];
 	currentlySelectedCells: ICell[];
+	bonusCells: ICell[];
 }
+
+export const MIN_LENGTH_FOR_BONUS = 5;
 
 // Define the initial state using that type
 const initialState: TableState = {
 	table: [],
 	currentAdjacentCells: [],
 	currentlySelectedCells: [],
+	bonusCells: [],
 };
 
 export const tableSlice = createSlice({
@@ -30,12 +34,15 @@ export const tableSlice = createSlice({
 			const cell: ICell | undefined = action.payload ? { ...action.payload } : undefined;
 
 			state.table = updateTable(state.table, state.currentAdjacentCells, cell);
-			state.currentAdjacentCells = adjacentCells(lastSelectedCell(state.table), state.table);
+			state.currentAdjacentCells = adjacentCells(state.table, lastSelectedCell(state.table));
 			state.currentlySelectedCells = selectedCells(state.table);
+			state.bonusCells = calculateBonusCells(state.table);
 		},
 		removeCells: (state, action: PayloadAction<boolean>) => {
 			if (action.payload) {
-				state.table = removeSelectedCells(state.table, selectedCells(state.table));
+				const tableWithoutSelectedCells = removeSelectedCells(state.table, selectedCells(state.table));
+				const tableWithoutBonusPointCells = removeSelectedCells(tableWithoutSelectedCells, state.bonusCells);
+				state.table = tableWithoutBonusPointCells;
 				state.currentAdjacentCells = [];
 			}
 		},
@@ -46,9 +53,10 @@ export const tableSlice = createSlice({
 export const { setCell, setTable, removeCells } = tableSlice.actions;
 
 // SELECTORS
-export const mainTable = (state: RootState): ICell[] => state.table.table;
-export const currentlyAdjacentCells = (state: RootState): ICell[] => state.table.currentAdjacentCells;
-export const currentlySelectedCells = (state: RootState): ICell[] => selectedCells(state.table.table);
-export const lastSelectedLetter = (state: RootState): ICell | undefined => lastSelectedCell(currentlySelectedCells(state));
+export const selectMainTable = (state: RootState): ICell[] => state.table.table;
+export const selectAdjacentToLastSelectedCell = (state: RootState): ICell[] => state.table.currentAdjacentCells;
+export const selectSelectedCells = (state: RootState): ICell[] => state.table.currentlySelectedCells;
+export const selectBonusCells = (state: RootState): ICell[] => state.table.bonusCells;
+export const selectedLastSelectedCell = (state: RootState): ICell | undefined => lastSelectedCell(selectSelectedCells(state));
 
 export default tableSlice.reducer;

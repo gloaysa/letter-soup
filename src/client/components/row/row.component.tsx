@@ -5,7 +5,14 @@ import { ICell } from '../../services/letter/table.interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTableConfig } from '../../store/config.reducer';
 import { useMakeCellsFallDownHook } from '../../hooks/use-make-cells-fall-down.hook';
-import { currentlyAdjacentCells, currentlySelectedCells, lastSelectedLetter, removeCells, setCell } from '../../store/table.reducer';
+import {
+	removeCells,
+	selectAdjacentToLastSelectedCell,
+	selectBonusCells,
+	selectedLastSelectedCell,
+	selectSelectedCells,
+	setCell,
+} from '../../store/table.reducer';
 import { selectWordState, setTotalPoints } from '../../store/words.reducer';
 import { cellIsNotSelectedAndCanBeSelected } from '../../utils/cell-selected.util';
 
@@ -18,9 +25,10 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 
 	const tableConfig = useSelector(selectTableConfig);
 	const currentWordExist = useSelector(selectWordState).currentWordExist;
-	const selectedCells = useSelector(currentlySelectedCells);
-	const lastSelected = useSelector(lastSelectedLetter);
-	const currentAdjacentCells = useSelector(currentlyAdjacentCells);
+	const selectedCells = useSelector(selectSelectedCells);
+	const lastSelected = useSelector(selectedLastSelectedCell);
+	const currentAdjacentCells = useSelector(selectAdjacentToLastSelectedCell);
+	const currentBonusCells = useSelector(selectBonusCells);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -31,6 +39,7 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 	const cellIsLastSelected = (cell: ICell) => lastSelected?.id === cell.id;
 	const cellIsSelected = (cell: ICell) => selectedCells.some(({ id }) => id === cell.id);
 	const cellIsAdjacent = (cell: ICell) => cellIsNotSelectedAndCanBeSelected(currentAdjacentCells, selectedCells, cell);
+	const cellIsBonusCell = (cell: ICell) => currentBonusCells.some(({ id }) => id === cell.id);
 
 	const selectLetter = (event: React.MouseEvent, cell: ICell) => {
 		dispatch(setCell(cell));
@@ -39,7 +48,7 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 	const playWord = () => {
 		if (currentWordExist) {
 			dispatch(removeCells(currentWordExist));
-			dispatch(setTotalPoints({ selectedCells, currentWordExist }));
+			dispatch(setTotalPoints({ selectedCells, currentWordExist, bonusCells: currentBonusCells }));
 		}
 	};
 
@@ -53,11 +62,12 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 					<div
 						onClick={(event) => selectLetter(event, cell)}
 						className={
-							`row__cell ${cell.column} ${index} ` +
+							`row__cell ${cell.row} ${cell.column} ` +
 							(cellIsLastSelected(cell) && currentWordExist ? 'row__cell--lastSelected ' : '') +
 							(cellIsSelected(cell) ? 'row__cell--selected ' : '') +
-							(cellIsSelected(cell) && currentWordExist ? 'row__cell--valid-word' : '') +
-							(cellIsAdjacent(cell) ? 'row__cell--adjacent' : '')
+							(cellIsSelected(cell) && currentWordExist ? 'row__cell--valid-word ' : '') +
+							(cellIsAdjacent(cell) ? 'row__cell--adjacent ' : '') +
+							(cellIsBonusCell(cell) && currentWordExist ? 'row__cell--bonus ' : '')
 						}
 						key={cell.id}
 					>

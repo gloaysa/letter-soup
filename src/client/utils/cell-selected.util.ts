@@ -1,5 +1,6 @@
 import { ICell } from '../services/letter/table.interface';
-import { cellIsAdjacent } from './adjacent-cells.util';
+import { cellIsAdjacent, cellsSideAdjacentToSelectedCells } from './adjacent-cells.util';
+import { MIN_LENGTH_FOR_BONUS } from '../store/table.reducer';
 
 function orderCellsByOrderOfSelection(a: ICell, b: ICell): number {
 	if (a.orderOfSelection < b.orderOfSelection) {
@@ -18,6 +19,10 @@ function orderCellsByOrderOfSelection(a: ICell, b: ICell): number {
  */
 export function selectedCells(table: ICell[]): ICell[] {
 	return table.filter(({ orderOfSelection }) => orderOfSelection > 0).sort(orderCellsByOrderOfSelection);
+}
+
+export function calculateBonusCells(table: ICell[]): ICell[] {
+	return selectedCells(table).length >= MIN_LENGTH_FOR_BONUS ? cellsSideAdjacentToSelectedCells(table, selectedCells(table)) : [];
 }
 
 /**

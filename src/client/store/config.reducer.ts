@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
+import { TOTAL_COLUMNS, TOTAL_ROWS } from '../utils/adjacent-cells.util';
 
 // Define a type for the slice state
 interface ConfigState {
@@ -12,8 +13,8 @@ interface ConfigState {
 // Define the initial state using that type
 const initialState: ConfigState = {
 	tableConfig: {
-		rows: 12,
-		columns: 6,
+		rows: TOTAL_ROWS,
+		columns: TOTAL_COLUMNS,
 	},
 };
 

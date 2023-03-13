@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { IWord } from '../../common/interfaces/word.interface';
 import { ICell } from '../services/letter/table.interface';
-import { multiplyPointsFromCells } from '../utils/sum-points.util';
+import { multiplyPointsFromCells, sumPointsFromCells } from '../utils/sum-points.util';
 
 // Define a type for the slice state
 interface WordsState {
@@ -36,10 +36,12 @@ export const wordsSlice = createSlice({
 			state.currentWord = action.payload;
 			state.currentWordExist = wordExist(state.wordList, action.payload);
 		},
-		setTotalPoints: (state, action: PayloadAction<{ selectedCells: ICell[]; currentWordExist: boolean }>) => {
+		setTotalPoints: (state, action: PayloadAction<{ selectedCells: ICell[]; bonusCells: ICell[]; currentWordExist: boolean }>) => {
 			if (action.payload.currentWordExist) {
 				const multipliedPoints = multiplyPointsFromCells(action.payload.selectedCells);
-				state.totalPoints = state.totalPoints + multipliedPoints;
+				const bonusPoints = sumPointsFromCells(action.payload.bonusCells);
+				const totalPoints = multipliedPoints + bonusPoints;
+				state.totalPoints = state.totalPoints + totalPoints;
 			}
 		},
 	},
