@@ -2150,7 +2150,7 @@ export const v = [
 	'vórtice',
 	'vóxel',
 ];
-export const w = [];
+export const w: string[] = [];
 export const x = ['Xilófono', 'Xilografía', 'Xiloprotectina', 'Xilotila', 'Ximenia', 'Xenófobo', 'Xenón', 'Xeroftalmia', 'Xerocopia', 'Xerófilo'];
 export const y = [
 	'yacer',
