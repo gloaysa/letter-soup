@@ -4,7 +4,7 @@ import { ICell } from '../services/letter/table.interface';
 import { adjacentCells } from '../utils/adjacent-cells.util';
 import { updateTable } from '../utils/update-table.util';
 import { calculateBonusCells, lastSelectedCell, selectedCells } from '../utils/cell-selected.util';
-import { removeSelectedCells } from '../utils/remove-cells.util';
+import { removeCellsAndBringUpperRowsDown } from '../utils/remove-cells.util';
 
 interface TableState {
 	table: ICell[];
@@ -40,9 +40,9 @@ export const tableSlice = createSlice({
 		},
 		removeCells: (state, action: PayloadAction<boolean>) => {
 			if (action.payload) {
-				const tableWithoutSelectedCells = removeSelectedCells(state.table, selectedCells(state.table));
-				const tableWithoutBonusPointCells = removeSelectedCells(tableWithoutSelectedCells, state.bonusCells);
-				state.table = tableWithoutBonusPointCells;
+				const allCellsToRemove = selectedCells(state.table).concat(state.bonusCells);
+				const tableWithoutSelectedCells = removeCellsAndBringUpperRowsDown(state.table, allCellsToRemove);
+				state.table = tableWithoutSelectedCells;
 				state.currentAdjacentCells = [];
 			}
 		},

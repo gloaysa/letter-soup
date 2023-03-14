@@ -1,5 +1,6 @@
 import { ICell } from '../services/letter/table.interface';
-import { flatArrayAndRemoveDuplicatesById, removeCellsContainedInBoth } from './array-manipulation.util';
+import { flatArrayAndRemoveDuplicatesById } from './array-manipulation.util';
+import { removeCellsContainedInBoth } from './remove-cells.util';
 
 export const TOTAL_ROWS = 12;
 export const TOTAL_COLUMNS = 9;

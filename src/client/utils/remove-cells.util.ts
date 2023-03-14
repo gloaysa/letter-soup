@@ -1,4 +1,5 @@
 import { ICell } from '../services/letter/table.interface';
+import { orderCellsByRowDescending } from './cell-selected.util';
 
 /**
  * Removes the passed Cells from the table and returns a new table without those Cells.
@@ -7,31 +8,46 @@ import { ICell } from '../services/letter/table.interface';
  * @param table
  * @param cellsToRemove
  */
-export function removeSelectedCells(table: ICell[], cellsToRemove: ICell[]): ICell[] {
-	const newTable = [...table];
-	for (const cell of cellsToRemove) {
-		// Search the index in the table of the cell to remove
-		let posicion;
-		for (let i = 0; i < newTable.length; i++) {
-			if (newTable[i].row === cell.row && newTable[i].column === cell.column) {
-				posicion = i;
-				break;
-			}
-		}
+export function removeCellsAndBringUpperRowsDown(table: ICell[], cellsToRemove: ICell[]): ICell[] {
+	const cellsToRemoveSorted = cellsToRemove.sort(orderCellsByRowDescending);
+	const newTable = removeCellsContainedInBoth(table, cellsToRemove).sort(orderCellsByRowDescending);
 
-		// If a position was found, use .splice to remove the cell
-		// and reduce in one the upper rows positioned in the same column to "bring them down"
-		if (posicion !== undefined) {
-			newTable.splice(posicion, 1);
-			for (let i = 0; i < newTable.length; i++) {
-				if (newTable[i].row > cell.row && newTable[i].column === cell.column) {
-					newTable[i] = {
-						...newTable[i],
-						row: newTable[i].row - 1,
-					};
-				}
+	for (let i = 0; i < newTable.length; i++) {
+		for (const cellRemoved of cellsToRemoveSorted) {
+			if (newTable[i].row >= cellRemoved.row && newTable[i].column === cellRemoved.column) {
+				newTable[i] = {
+					...newTable[i],
+					row: newTable[i].row - 1,
+				};
 			}
 		}
 	}
 	return newTable;
+}
+
+/**
+ * Returns an array containing all the elements inside both passed arrays, without duplicates.
+ * @param cells1
+ * @param cells2
+ */
+export function removeCommonCells(cells1: ICell[], cells2: ICell[]): ICell[] {
+	const uniqueCells: ICell[] = cells1.filter((cell1) => {
+		return !cells2.some((cell2) => {
+			return cell1.id === cell2.id;
+		});
+	});
+	return uniqueCells.concat(cells2);
+}
+
+/**
+ * It returns a new array holding all the elements inside cellsToClean that are not inside cellsToRemove
+ * @param cellsToClean
+ * @param cellsToRemove
+ */
+export function removeCellsContainedInBoth(cellsToClean: ICell[], cellsToRemove: ICell[]): ICell[] {
+	return cellsToClean.filter((cell) => {
+		return !cellsToRemove.some((selectedCell) => {
+			return cell.id === selectedCell.id;
+		});
+	});
 }

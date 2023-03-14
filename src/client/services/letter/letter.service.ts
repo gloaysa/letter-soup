@@ -20,17 +20,17 @@ export class LetterService {
 		const table: ICell[] = [];
 
 		rows.forEach((row, index) => {
-			if (index === 11) {
+			if (index === 9) {
 				const firstRow = [
-					new CellModel(1, 1, new LetterModel('p')),
-					new CellModel(1, 2, new LetterModel('o')),
-					new CellModel(1, 3, new LetterModel('z')),
-					new CellModel(1, 4, new LetterModel('o')),
-					new CellModel(1, 5, new LetterModel('s')),
-					new CellModel(1, 6, new LetterModel(this.getRandomChar())),
-					new CellModel(1, 7, new LetterModel(this.getRandomChar())),
-					new CellModel(1, 8, new LetterModel(this.getRandomChar())),
-					new CellModel(1, 9, new LetterModel(this.getRandomChar())),
+					new CellModel(3, 1, new LetterModel('p')),
+					new CellModel(3, 2, new LetterModel('o')),
+					new CellModel(3, 3, new LetterModel('z')),
+					new CellModel(3, 4, new LetterModel('o')),
+					new CellModel(3, 5, new LetterModel('s')),
+					new CellModel(3, 6, new LetterModel(this.getRandomChar())),
+					new CellModel(3, 7, new LetterModel(this.getRandomChar())),
+					new CellModel(3, 8, new LetterModel(this.getRandomChar())),
+					new CellModel(3, 9, new LetterModel(this.getRandomChar())),
 				];
 				return table.push(...firstRow);
 			}

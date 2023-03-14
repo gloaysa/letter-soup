@@ -2,11 +2,21 @@ import { ICell } from '../services/letter/table.interface';
 import { cellIsAdjacent, cellsSideAdjacentToSelectedCells } from './adjacent-cells.util';
 import { MIN_LENGTH_FOR_BONUS } from '../store/table.reducer';
 
-function orderCellsByOrderOfSelection(a: ICell, b: ICell): number {
+function orderCellsByOrderOfSelectionAscending(a: ICell, b: ICell): number {
 	if (a.orderOfSelection < b.orderOfSelection) {
 		return -1;
 	} else if (a.orderOfSelection > b.orderOfSelection) {
 		return 1;
+	} else {
+		return 0;
+	}
+}
+
+export function orderCellsByRowDescending(a: ICell, b: ICell): number {
+	if (a.row < b.row) {
+		return 1;
+	} else if (a.row > b.row) {
+		return -1;
 	} else {
 		return 0;
 	}
@@ -18,7 +28,7 @@ function orderCellsByOrderOfSelection(a: ICell, b: ICell): number {
  * @param table
  */
 export function selectedCells(table: ICell[]): ICell[] {
-	return table.filter(({ orderOfSelection }) => orderOfSelection > 0).sort(orderCellsByOrderOfSelection);
+	return table.filter(({ orderOfSelection }) => orderOfSelection > 0).sort(orderCellsByOrderOfSelectionAscending);
 }
 
 export function calculateBonusCells(table: ICell[]): ICell[] {
