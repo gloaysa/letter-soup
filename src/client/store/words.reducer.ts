@@ -3,6 +3,7 @@ import { RootState } from './store';
 import { IWord } from '../../common/interfaces/word.interface';
 import { ICell } from '../services/letter/table.interface';
 import { multiplyPointsFromCells, sumPointsFromCells } from '../utils/sum-points.util';
+import { normalizeString } from '../utils/normalize-string.util';
 
 // Define a type for the slice state
 interface WordsState {
@@ -48,7 +49,7 @@ export const wordsSlice = createSlice({
 });
 
 const wordExist = (wordList: IWord[], word: string): boolean => {
-	return wordList.some((existingWord) => existingWord.allForms.some((form) => form === word));
+	return wordList.some((existingWord) => existingWord.allForms.some((form) => normalizeString(form) === word));
 };
 
 export const { setWordList, setCurrentWord, setNewWord, setTotalPoints } = wordsSlice.actions;

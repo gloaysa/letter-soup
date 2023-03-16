@@ -22,10 +22,10 @@ export class LetterService {
 		rows.forEach((row, index) => {
 			if (index === 9) {
 				const firstRow = [
-					new CellModel(3, 1, new LetterModel('p')),
-					new CellModel(3, 2, new LetterModel('o')),
-					new CellModel(3, 3, new LetterModel('z')),
-					new CellModel(3, 4, new LetterModel('o')),
+					new CellModel(3, 1, new LetterModel('c')),
+					new CellModel(3, 2, new LetterModel('a')),
+					new CellModel(3, 3, new LetterModel('f')),
+					new CellModel(3, 4, new LetterModel('e')),
 					new CellModel(3, 5, new LetterModel('s')),
 					new CellModel(3, 6, new LetterModel(this.getRandomChar())),
 					new CellModel(3, 7, new LetterModel(this.getRandomChar())),
