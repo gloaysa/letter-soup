@@ -39,6 +39,7 @@ const CellComponent: FunctionComponent<ICellComponent> = ({ cell, onSecondClick 
 
 	return (
 		<div className={'letter '} onClick={handleClick} ref={wrapperRef}>
+			<span>{cell.letter.char.value}</span>
 			<div
 				className={
 					(previousCellArrowPosition ? 'line pre ' : '') +
@@ -73,7 +74,6 @@ const CellComponent: FunctionComponent<ICellComponent> = ({ cell, onSecondClick 
 					(isLastSelected && previousCellArrowPosition === 'v-bottom' ? 'line line--v line-last-selected--bottom ' : '')
 				}
 			></div>
-			<span>{cell.letter.char.value}</span>
 		</div>
 	);
 };

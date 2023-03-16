@@ -1,10 +1,4 @@
-$cell-width: 50px;
-$cell-height: 50px;
-
-$color-cell-adjacent: #ffdba4;
-$color-cell-selected: #ffe9ae;
-$color-cell-last-selected: #ffb3b3;
-$color-cell-word-is-valid: #c1efff;
+@import '/src/client/styles/index.scss';
 
 .row {
 	display: flex;
@@ -13,12 +7,16 @@ $color-cell-word-is-valid: #c1efff;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		width: $cell-size-phone;
+		height: $cell-size-phone;
 		flex: 1;
+		cursor: pointer;
 		border: 5px solid transparent;
 
-		width: $cell-width;
-		height: $cell-height;
-		cursor: pointer;
+		@include tablet {
+			width: $cell-size-tablet;
+			height: $cell-size-tablet;
+		}
 	}
 
 	&__cell--empty {
@@ -40,8 +38,8 @@ $color-cell-word-is-valid: #c1efff;
 	}
 
 	&__cell--adjacent:hover {
-		background-color: lighten($color-cell-adjacent, 15);
-		border-color: lighten($color-cell-adjacent, 15);
+		background-color: $color-cell-adjacent-light;
+		border-color: $color-cell-adjacent-light;
 	}
 	&__cell--bonus {
 		background-color: transparent;
@@ -52,7 +50,7 @@ $color-cell-word-is-valid: #c1efff;
 
 		@keyframes pulse {
 			to {
-				background-color: darken($color-cell-last-selected, 10);
+				background-color: $color-cell-last-selected-light;
 			}
 		}
 	}

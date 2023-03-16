@@ -1,3 +1,5 @@
+@import '/src/client/styles/colors.scss';
+
 .current-word {
 	display: flex;
 	height: 50px;
@@ -9,20 +11,20 @@
 		margin-left: 15px;
 
 		&--search {
-			color: yellow;
+			color: $color-primary;
 			cursor: pointer;
 		}
 
 		&--exists {
-			color: green;
+			color: $color-success;
 		}
 
 		&--wrong {
-			color: red;
+			color: $color-error;
 		}
 
 		&--loading {
-			color: grey;
+			color: $color-secondary;
 			animation: spin 1s infinite linear;
 
 			@keyframes spin {

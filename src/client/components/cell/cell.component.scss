@@ -1,87 +1,139 @@
-:root {
-	--letter-width: 25px;
-	--letter-height: 25px;
-	--line-width: calc(var(--letter-width) * 2.5);
-	--line-height: calc(var(--letter-height) * 2);
-}
+@import '/src/client/styles/index.scss';
 
 .letter {
 	display: flex;
 	position: relative;
 	text-transform: uppercase;
-	font-size: 32px;
-	width: var(--letter-width);
-	height: var(--letter-height);
-	padding: 15px;
 	justify-content: center;
 	align-items: center;
+
+	width: $letter-size-phone;
+	height: $letter-size-phone;
+	font-size: 16px;
+	padding: 7.5px;
+
+	@include tablet {
+		width: $letter-size-tablet;
+		height: $letter-size-tablet;
+		font-size: 32px;
+		padding: 15px;
+	}
 }
 
 .line {
 	position: absolute;
-	background-color: rgba(255, 219, 164, 0.5);
+	background-color: $color-warning;
+	opacity: 0.3;
 }
 
 .line--h {
-	width: var(--line-width);
-	height: var(--letter-height);
+	width: $line-size-phone;
+	height: $letter-size-phone;
+
+	@include tablet {
+		width: $line-size-tablet;
+		height: $letter-size-tablet;
+	}
 }
 
 .line--v {
-	width: var(--letter-width);
-	height: var(--line-height);
+	width: $letter-size-phone;
+	height: $line-size-phone;
+
+	@include tablet {
+		width: $letter-size-tablet;
+		height: $line-size-tablet;
+	}
 }
 
 .line--top {
-	top: calc(var(--letter-width) * -1);
+	top: calc($letter-size-phone * -1);
 	border-radius: 0 10% 0 0;
+
+	@include tablet {
+		top: calc($letter-size-tablet * -1);
+	}
 }
 
 .line--right {
-	right: calc(var(--letter-width) * -1);
+	right: calc($letter-size-phone * -1);
 	border-radius: 0 0 0 10%;
+
+	@include tablet {
+		right: calc($letter-size-tablet * -1);
+	}
 }
 
 .line--bottom {
-	bottom: calc(var(--letter-width) * -1);
+	bottom: calc($letter-size-phone * -1);
 	border-radius: 10% 10% 0 0;
+
+	@include tablet {
+		bottom: calc($letter-size-tablet * -1);
+	}
 }
 
 .line--left {
-	left: calc(var(--letter-width) * -1);
+	left: calc($letter-size-phone * -1);
 	border-radius: 0 10% 10% 0;
+
+	@include tablet {
+		left: calc($letter-size-tablet * -1);
+	}
 }
 
 .line--d-up-left {
-	width: calc(var(--letter-width) * 2);
-	height: var(--letter-height);
+	width: calc($letter-size-phone * 2);
+	height: $letter-size-phone;
 	transform: rotate(45deg);
 	top: 0;
-	left: calc((var(--letter-width) / 2) * -1);
+	left: calc(($letter-size-phone / 2) * -1);
+
+	@include tablet {
+		width: calc($letter-size-tablet * 2);
+		height: $letter-size-tablet;
+		left: calc(($letter-size-tablet / 2) * -1);
+	}
 }
 
 .line--d-up-right {
-	width: var(--line-width);
-	height: var(--letter-height);
+	width: $line-size-phone;
+	height: $letter-size-phone;
 	transform: rotate(-45deg);
 	top: 0;
-	right: calc((var(--letter-width) / 2) * -1);
+	right: calc(($letter-size-phone / 2) * -1);
+
+	@include tablet {
+		width: $line-size-tablet;
+		height: $letter-size-tablet;
+		right: calc(($letter-size-tablet / 2) * -1);
+	}
 }
 
 .line--d-down-left {
-	width: var(--letter-width);
-	height: var(--letter-height);
+	width: $letter-size-phone;
+	height: $letter-size-phone;
 	transform: rotate(-45deg);
 	bottom: 0;
 	left: 0;
+
+	@include tablet {
+		width: $letter-size-tablet;
+		height: $letter-size-tablet;
+	}
 }
 
 .line--d-down-right {
-	width: var(--letter-width);
-	height: var(--letter-height);
+	width: $letter-size-phone;
+	height: $letter-size-phone;
 	transform: rotate(45deg);
 	bottom: 0;
 	right: 0;
+
+	@include tablet {
+		width: $letter-size-tablet;
+		height: $letter-size-tablet;
+	}
 }
 
 .line-last-selected--top {

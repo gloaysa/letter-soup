@@ -1,10 +1,20 @@
-$color-cell-adjacent: #ffdba4;
+@import '/src/client/styles/colors.scss';
+@import '/src/client/styles/breakpoints.scss';
+
 body {
 	background-color: $color-cell-adjacent;
 }
 .App {
 	display: flex;
 	flex-direction: column;
-	max-width: 1024px;
+	max-width: 375px;
 	margin: 0 auto;
+
+	@include tablet {
+		max-width: $tablet-width;
+	}
+
+	@include desktop {
+		max-width: $desktop-width;
+	}
 }
