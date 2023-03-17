@@ -13,7 +13,7 @@ import {
 	selectSelectedCells,
 	setCell,
 } from '../../store/table.reducer';
-import { selectWordState, setTotalPoints } from '../../store/words.reducer';
+import { selectCurrentWordExist, setTotalPoints } from '../../store/words.reducer';
 import { cellIsNotSelectedAndCanBeSelected } from '../../utils/cell-selected.util';
 
 interface RowComponent {
@@ -24,7 +24,7 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 	const [numberOfColumns, setNumberOfColumns] = useState<(ICell | undefined)[]>([]);
 
 	const tableConfig = useSelector(selectTableConfig);
-	const currentWordExist = useSelector(selectWordState).currentWordExist;
+	const currentWordExist = useSelector(selectCurrentWordExist);
 	const selectedCells = useSelector(selectSelectedCells);
 	const lastSelected = useSelector(selectedLastSelectedCell);
 	const currentAdjacentCells = useSelector(selectAdjacentToLastSelectedCell);

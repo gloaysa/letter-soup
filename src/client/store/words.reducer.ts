@@ -9,7 +9,6 @@ import { normalizeString } from '../utils/normalize-string.util';
 interface WordsState {
 	wordList: IWord[];
 	currentWord: string;
-	currentWordExist: boolean;
 	totalPoints: number;
 }
 
@@ -17,7 +16,6 @@ interface WordsState {
 const initialState: WordsState = {
 	wordList: [],
 	currentWord: '',
-	currentWordExist: false,
 	totalPoints: 0,
 };
 
@@ -31,11 +29,9 @@ export const wordsSlice = createSlice({
 		setNewWord: (state, action: PayloadAction<IWord>) => {
 			const newWordList = [...state.wordList, action.payload];
 			state.wordList = newWordList;
-			state.currentWordExist = wordExist(newWordList, action.payload.value);
 		},
 		setCurrentWord: (state, action: PayloadAction<string>) => {
 			state.currentWord = action.payload;
-			state.currentWordExist = wordExist(state.wordList, action.payload);
 		},
 		setTotalPoints: (state, action: PayloadAction<{ selectedCells: ICell[]; bonusCells: ICell[]; currentWordExist: boolean }>) => {
 			if (action.payload.currentWordExist) {
@@ -45,6 +41,10 @@ export const wordsSlice = createSlice({
 				state.totalPoints = state.totalPoints + totalPoints;
 			}
 		},
+		restartGame: (state) => {
+			state.currentWord = '';
+			state.totalPoints = 0;
+		},
 	},
 });
 
@@ -52,10 +52,11 @@ const wordExist = (wordList: IWord[], word: string): boolean => {
 	return wordList.some((existingWord) => existingWord.allForms.some((form) => normalizeString(form) === word));
 };
 
-export const { setWordList, setCurrentWord, setNewWord, setTotalPoints } = wordsSlice.actions;
+export const { setWordList, setCurrentWord, setNewWord, setTotalPoints, restartGame } = wordsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectWordState = (state: RootState): WordsState => state.words;
 export const selectTotalPoints = (state: RootState): number => state.words.totalPoints;
+export const selectCurrentWordExist = (state: RootState): boolean => wordExist(state.words.wordList, state.words.currentWord);
 
 export default wordsSlice.reducer;

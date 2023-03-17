@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import './hamburger-menu.component.scss';
 
-const HamburgerMenuComponent: FunctionComponent = () => {
-	const linkList = [
-		{ label: 'Home', link: '#' },
-		{ label: 'About', link: '#' },
-		{ label: 'Info', link: '#' },
-		{ label: 'Contact', link: '#' },
-	];
+interface IHamburgerMenuComponent {
+	linkList: {
+		label: string;
+		callback?: () => void;
+		link?: string;
+	}[];
+}
+const HamburgerMenuComponent: FunctionComponent<IHamburgerMenuComponent> = ({ linkList }) => {
 	return (
 		<nav role="navigation">
 			<div id="menuToggle">
@@ -17,7 +18,7 @@ const HamburgerMenuComponent: FunctionComponent = () => {
 				<span></span>
 				<ul id="menu">
 					{linkList.map((item) => (
-						<a key={item.label} href={item.link}>
+						<a key={item.label} onClick={item.callback}>
 							<li>{item.label}</li>
 						</a>
 					))}

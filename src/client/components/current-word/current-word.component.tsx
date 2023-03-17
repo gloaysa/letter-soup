@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import './current-word.component.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectWordState, setCurrentWord, setNewWord } from '../../store/words.reducer';
+import { selectCurrentWordExist, selectWordState, setCurrentWord, setNewWord } from '../../store/words.reducer';
 import { selectSelectedCells } from '../../store/table.reducer';
 import { BsHandThumbsDown, BsHandThumbsUp, BsSearch } from 'react-icons/bs';
 import { ImSpinner3 } from 'react-icons/im';
@@ -16,7 +16,7 @@ const CurrentWordComponent: FunctionComponent<ICurrentWordComponent> = ({ wordSe
 	const [newWordIsWrong, setNewWordIsWrong] = useState<boolean>(false);
 	const currentWord = useSelector(selectWordState).currentWord;
 	const selectedCells = useSelector(selectSelectedCells);
-	const currentWordExists = useSelector(selectWordState).currentWordExist;
+	const currentWordExists = useSelector(selectCurrentWordExist);
 	const { createWord, loading } = useCreateWordHook(wordService);
 	const dispatch = useDispatch();
 

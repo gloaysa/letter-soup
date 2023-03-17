@@ -29,6 +29,9 @@ export const tableSlice = createSlice({
 	reducers: {
 		setTable: (state, action: PayloadAction<ICell[]>) => {
 			state.table = action.payload;
+			state.currentAdjacentCells = [];
+			state.currentlySelectedCells = [];
+			state.bonusCells = [];
 		},
 		setCell: (state, action: PayloadAction<ICell | undefined>) => {
 			const cell: ICell | undefined = action.payload ? { ...action.payload } : undefined;
