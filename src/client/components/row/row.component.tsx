@@ -46,6 +46,7 @@ const RowComponent: FunctionComponent<RowComponent> = ({ row }) => {
 	};
 
 	const playWord = () => {
+		console.log('guille', currentWordExist);
 		if (currentWordExist) {
 			dispatch(removeCells(currentWordExist));
 			dispatch(setTotalPoints({ selectedCells, currentWordExist, bonusCells: currentBonusCells }));

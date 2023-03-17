@@ -25,7 +25,7 @@ function App(): JSX.Element {
 		dispatch(setTable(letterService.createFullTable(tableConfig.rows, tableConfig.columns)));
 	};
 
-	const { loading } = useGetAllWordsHook(wordService, dispatch, words, table);
+	const { loading } = useGetAllWordsHook(wordService, dispatch, words);
 
 	useEffect(() => {
 		if (!table.length && words.length) {
