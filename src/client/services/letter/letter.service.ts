@@ -1,4 +1,4 @@
-import { Char, Chars } from '../../models/char.model';
+import { Chars, IChar } from '../../models/char.model';
 import { LetterModel } from '../../models/letter.model';
 import { ICell } from './table.interface';
 import { CellModel } from '../../models/cell.model';
@@ -14,43 +14,66 @@ export class LetterService {
 		return this.instance;
 	}
 
+	private charsUsed: string[] = [];
+
 	createFullTable(numberOfRows: number, numberOfColumns: number): ICell[] {
-		const rows = Array.from(Array(numberOfRows).keys());
-		const columns = Array.from(Array(numberOfColumns).keys());
+		this.charsUsed = [];
+		const iterableNumberOfRows = Array.from(Array(numberOfRows).keys());
+		const iterableNumberOfColumns = Array.from(Array(numberOfColumns).keys());
 		const table: ICell[] = [];
 
-		rows.forEach((row, index) => {
-			if (index === 9) {
-				const firstRow = [
-					new CellModel(3, 1, new LetterModel('p')),
-					new CellModel(3, 2, new LetterModel('a')),
-					new CellModel(3, 3, new LetterModel('ñ')),
-					new CellModel(3, 4, new LetterModel('o')),
-					new CellModel(3, 5, new LetterModel('s')),
+		iterableNumberOfRows.forEach((rowNumber) => {
+			/*if (rowNumber === 9) {
+				const testingRow = [
+					new CellModel(3, 1, new LetterModel({ value: 'p', frequency: 1 })),
+					new CellModel(3, 2, new LetterModel({ value: 'a', frequency: 1 })),
+					new CellModel(3, 3, new LetterModel({ value: 'ñ', frequency: 1 })),
+					new CellModel(3, 4, new LetterModel({ value: 'o', frequency: 1 })),
+					new CellModel(3, 5, new LetterModel({ value: 's', frequency: 1 })),
 					new CellModel(3, 6, new LetterModel(this.getRandomChar())),
 					new CellModel(3, 7, new LetterModel(this.getRandomChar())),
 					new CellModel(3, 8, new LetterModel(this.getRandomChar())),
 					new CellModel(3, 9, new LetterModel(this.getRandomChar())),
 				];
-				return table.push(...firstRow);
-			}
+				return table.push(...testingRow);
+			}*/
 
-			const cellsInRow = columns.map((column) => new CellModel(rows.length - index, column + 1, new LetterModel(this.getRandomChar())));
-			table.push(...cellsInRow);
+			const row = iterableNumberOfColumns.map((columnNumber) => {
+				const char = this.generateLetterList(numberOfRows * numberOfColumns);
+				const rowNumberInverse = iterableNumberOfRows.length - rowNumber;
+				const columnNumberNotZero = columnNumber + 1;
+				return new CellModel(rowNumberInverse, columnNumberNotZero, new LetterModel(char));
+			});
+			table.push(...row);
 		});
 
 		return JSON.parse(JSON.stringify(table));
 	}
 
-	private getRandomChars(sizeOfColumn: number): Char[] {
-		const shuffled = [...Chars].sort(() => 0.5 - Math.random());
-
-		return shuffled.slice(0, sizeOfColumn);
-	}
-
-	private getRandomChar(): Char {
+	private getRandomChar(): IChar {
 		const randomIndex = Math.floor(Math.random() * Chars.length);
 
 		return Chars[randomIndex];
+	}
+
+	private generateLetterList(totalNumberOfLetters: number): IChar {
+		const char = this.getRandomChar();
+
+		const currentTimesCharIsUsed: number = this.charsUsed.reduce((counter, current) => {
+			if (current === char.value) {
+				return counter + 1;
+			} else {
+				return counter;
+			}
+		}, 0);
+
+		const charUsedPercentage = (currentTimesCharIsUsed * totalNumberOfLetters) / 100;
+		const charPercentage = (char.frequency * totalNumberOfLetters) / 100;
+		if (charUsedPercentage > charPercentage) {
+			return this.generateLetterList(totalNumberOfLetters);
+		}
+
+		this.charsUsed.push(char.value);
+		return char;
 	}
 }

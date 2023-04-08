@@ -1,4 +1,4 @@
-import { Char, CharModel, IChar } from './char.model';
+import { IChar } from './char.model';
 import { v4 as uuid } from 'uuid';
 
 export interface ILetter {
@@ -19,9 +19,9 @@ export class LetterModel implements ILetter {
 		pointsMultiplier: 0,
 	};
 
-	constructor(char: Char) {
+	constructor(char: IChar) {
 		this.id = uuid();
-		this.char = new CharModel(char);
+		this.char = char;
 		this.assignPointValues();
 	}
 

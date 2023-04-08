@@ -29,15 +29,17 @@ export const wordsSlice = createSlice({
 			state.wordList = action.payload;
 		},
 		setNewWord: (state, action: PayloadAction<IWord>) => {
-			const newWordList = [...state.wordList, action.payload];
-			state.wordList = newWordList;
+			state.wordList = [...state.wordList, action.payload];
 			state.currentWordExists = action.payload.allForms.some((form) => wordExist(state.wordList, form));
 		},
 		setCurrentWord: (state, action: PayloadAction<string>) => {
 			state.currentWord = action.payload;
 			state.currentWordExists = wordExist(state.wordList, action.payload);
 		},
-		setTotalPoints: (state, action: PayloadAction<{ selectedCells: ICell[]; bonusCells: ICell[]; currentWordExist: boolean }>) => {
+		setTotalPoints: (
+			state,
+			action: PayloadAction<{ selectedCells: ICell[]; bonusCells: ICell[]; currentWordExist: boolean }>
+		) => {
 			if (action.payload.currentWordExist) {
 				const multipliedPoints = multiplyPointsFromCells(action.payload.selectedCells);
 				const bonusPoints = sumPointsFromCells(action.payload.bonusCells);
@@ -54,7 +56,11 @@ export const wordsSlice = createSlice({
 });
 
 const wordExist = (wordList: IWord[], word: string): boolean => {
-	return wordList.some((existingWord) => existingWord.allForms.some((form) => normalizeString(form) === normalizeString(word)));
+	return wordList.some((existingWord) =>
+		existingWord.allForms.some(
+			(form) => normalizeString(form.toLowerCase()) === normalizeString(word.toLowerCase())
+		)
+	);
 };
 
 export const { setWordList, setCurrentWord, setNewWord, setTotalPoints, restartGame } = wordsSlice.actions;

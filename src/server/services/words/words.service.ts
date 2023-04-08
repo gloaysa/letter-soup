@@ -19,7 +19,7 @@ export class WordsService {
 					$caseSensitive: false,
 					$diacriticSensitive: false,
 				},
-			}).exec();
+			});
 		} catch (e) {
 			console.error(`There was an error when looking for the word ${word}: ${e}`);
 			return undefined;
@@ -49,8 +49,11 @@ export class WordsService {
 	async getWordByValueOrCreate(word: string): Promise<Document<IWord> | undefined> {
 		const wordFound = await this.getWordByValue(word);
 		if (wordFound) {
+			console.log('wordFound', wordFound);
 			return wordFound;
 		}
+
+		console.log('wordFound', wordFound);
 
 		const wordFromRAE = await this.searchWordInRAE(word);
 

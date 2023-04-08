@@ -29,7 +29,7 @@ export class WordService {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ search: word }),
+			body: JSON.stringify({ search: word.toLowerCase() }),
 		}).then((res) => res.json());
 	}
 
@@ -41,7 +41,7 @@ export class WordService {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ search: word, create: true }),
+			body: JSON.stringify({ search: word.toLowerCase(), create: true }),
 		}).then((res) => {
 			if (res.status === 404) {
 				console.error('Word not found');

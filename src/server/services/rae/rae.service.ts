@@ -1,6 +1,7 @@
 import { RAE, SearchWordResponse } from 'rae-api';
 import { IWord } from '../../../common/interfaces/word.interface';
 import { notEmpty } from '../../utils/no-empty-value';
+import { normalizeString } from '../../../client/utils/normalize-string.util';
 
 const rae = new RAE();
 
@@ -22,7 +23,9 @@ export async function getWordFromDictionary(search: string): Promise<IWord | und
 		}
 
 		const words = await transformFromRAEtoIWord(results);
-		const filteredWords = words.filter(({ value }) => search === value || searchIsPlural(search, value));
+		const filteredWords = words.filter(
+			({ value }) => normalizeString(search) === normalizeString(value) || searchIsPlural(search, value)
+		);
 
 		if (!filteredWords.length) {
 			return undefined;
@@ -40,8 +43,12 @@ export async function getWordFromDictionary(search: string): Promise<IWord | und
 				genres: isFirstIteration ? previousValue.genres : [...previousValue.genres, ...currentValue.genres],
 				plural: isFirstIteration ? previousValue.plural : currentValue.plural,
 				allForms: isFirstIteration ? previousValue.allForms : currentValue.allForms,
-				spellings: isFirstIteration ? previousSpellings : [...previousSpellings, { value: currentValue.value, _id: currentId }],
-				definitions: isFirstIteration ? previousDefinitions : [...previousDefinitions, ...currentValue.definitions],
+				spellings: isFirstIteration
+					? previousSpellings
+					: [...previousSpellings, { value: currentValue.value, _id: currentId }],
+				definitions: isFirstIteration
+					? previousDefinitions
+					: [...previousDefinitions, ...currentValue.definitions],
 			};
 		}, words[0]);
 	} catch (e) {
