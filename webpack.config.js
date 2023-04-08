@@ -3,16 +3,28 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const dotenv = require('dotenv');
+const webpack = require('webpack');
 
-const outputDirectory = 'dist';
+const outputDirectory = 'dist/public';
+
+const env = dotenv.config().parsed;
+
+const envKeys = Object.keys(env).reduce((prev, next) => {
+	prev[`process.env.${next}`] = JSON.stringify(env[next]);
+	return prev;
+}, {});
 
 module.exports = {
 	entry: ['babel-polyfill', './src/client/index.tsx'],
+	performance: {
+		assetFilter: (assetFilename) => assetFilename.endsWith('.png'),
+	},
 	output: {
 		path: path.join(__dirname, outputDirectory),
-		filename: './js/[name].bundle.js',
+		filename: `js/[name].bundle.js`,
+		publicPath: '/',
 	},
-	devtool: 'source-map',
 	module: {
 		rules: [
 			{
@@ -44,21 +56,25 @@ module.exports = {
 		port: 3000,
 		open: true,
 		hot: true,
+		historyApiFallback: true,
 		proxy: {
 			'/api/**': {
-				target: 'http://localhost:8050',
+				target: 'http://localhost:5050',
 				secure: false,
 				changeOrigin: true,
 			},
 		},
 	},
 	plugins: [
-		new CleanWebpackPlugin({}),
+		new CleanWebpackPlugin(),
+		new MiniCssExtractPlugin({
+			filename: `css/[name].min.css`,
+		}),
 		new HtmlWebpackPlugin({
 			template: './public/index.html',
-			favicon: './public/icons/favicon.ico',
 		}),
-		new MiniCssExtractPlugin(),
-		new CopyPlugin({ patterns: [{ from: './src/client/assets', to: 'assets' }] }),
+		new webpack.DefinePlugin(envKeys),
+		new CopyPlugin({ patterns: [{ from: 'assets', to: '../assets' }] }),
+		new CopyPlugin({ patterns: [{ from: 'public/manifest.json', to: 'manifest.json' }] }),
 	],
 };
