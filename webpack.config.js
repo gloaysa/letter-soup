@@ -40,10 +40,6 @@ module.exports = {
 				loader: 'ts-loader',
 			},
 			{
-				test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-				loader: 'url-loader',
-			},
-			{
 				test: /\.s[ac]ss$/i,
 				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
 			},

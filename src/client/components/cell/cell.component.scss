@@ -9,13 +9,14 @@
 
 	width: $letter-size-phone;
 	height: $letter-size-phone;
-	font-size: 16px;
-	padding: 7.5px;
+	font-size: $cell-size-phone;
+	font-family: 'Quicksand', sans-serif;
+	padding: 5px;
 
 	@include tablet {
 		width: $letter-size-tablet;
 		height: $letter-size-tablet;
-		font-size: 32px;
+		font-size: $cell-size-tablet;
 		padding: 15px;
 	}
 }

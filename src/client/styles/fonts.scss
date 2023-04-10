@@ -1,0 +1,29 @@
+/* kodchasan-200 - latin */
+@font-face {
+	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-family: 'Kodchasan';
+	font-style: normal;
+	font-weight: 200;
+	src: url('/assets/fonts/kodchasan/kodchasan-v16-latin-200.eot'); /* IE9 Compat Modes */
+	src: url('/assets/fonts/kodchasan/kodchasan-v16-latin-200.eot?#iefix') format('embedded-opentype'),
+		/* IE6-IE8 */ url('/assets/fonts/kodchasan/kodchasan-v16-latin-200.woff2') format('woff2'),
+		/* Super Modern Browsers */ url('/assets/fonts/kodchasan/kodchasan-v16-latin-200.woff') format('woff'),
+		/* Modern Browsers */ url('/assets/fonts/kodchasan/kodchasan-v16-latin-200.ttf') format('truetype'),
+		/* Safari, Android, iOS */ url('/assets/fonts/kodchasan/kodchasan-v16-latin-200.svg#Kodchasan')
+			format('svg'); /* Legacy iOS */
+}
+
+/* quicksand-regular - latin */
+@font-face {
+	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-family: 'Quicksand';
+	font-style: normal;
+	font-weight: 400;
+	src: url('/assets/fonts/quicksand/quicksand-v30-latin-regular.eot'); /* IE9 Compat Modes */
+	src: url('/assets/fonts/quicksand/quicksand-v30-latin-regular.eot?#iefix') format('embedded-opentype'),
+		/* IE6-IE8 */ url('/assets/fonts/quicksand/quicksand-v30-latin-regular.woff2') format('woff2'),
+		/* Super Modern Browsers */ url('/assets/fonts/quicksand/quicksand-v30-latin-regular.woff') format('woff'),
+		/* Modern Browsers */ url('/assets/fonts/quicksand/quicksand-v30-latin-regular.ttf') format('truetype'),
+		/* Safari, Android, iOS */ url('/assets/fonts/quicksand/quicksand-v30-latin-regular.svg#Quicksand')
+			format('svg'); /* Legacy iOS */
+}

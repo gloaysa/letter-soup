@@ -1,13 +1,15 @@
 @import '/src/client/styles/colors.scss';
 @import '/src/client/styles/breakpoints.scss';
+@import '/src/client/styles/fonts.scss';
 
 body {
 	background-color: $color-cell-adjacent;
+	font-family: 'Kodchasan', sans-serif;
 }
 .App {
 	display: flex;
 	flex-direction: column;
-	max-width: 375px;
+	min-width: 375px;
 	margin: 0 auto;
 
 	@include tablet {
