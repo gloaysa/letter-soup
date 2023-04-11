@@ -2,13 +2,13 @@ $tablet-width: 768px;
 $desktop-width: 1024px;
 
 @mixin tablet {
-	@media (min-width: #{$tablet-width}) and (orientation: portrait) {
+	@media (min-width: #{$tablet-width}) {
 		@content;
 	}
 }
 
 @mixin desktop {
-	@media (min-width: #{$desktop-width}) and (orientation: portrait) {
+	@media (min-width: #{$desktop-width}) {
 		@content;
 	}
 }
