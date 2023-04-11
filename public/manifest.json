@@ -5,8 +5,8 @@
 	"description": "Juego sopa de letras en modo torre",
 	"display": "standalone",
 	"start_url": "/",
-	"theme_color": "#ffffff",
-	"background_color": "#ffffff",
+	"theme_color": "#ffd6a5",
+	"background_color": "#ffd6a5",
 	"id": "@gloaysa/sopa-de-letras",
 	"scope": "./",
 	"icons": [
